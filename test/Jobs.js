@@ -8,13 +8,13 @@ const args = new ParseArgs().run();
 
 describe("Test Jobs class", function () {
     before(function () {
-        CONST.DATA.USER = "./test/temp/users";
+        CONST.DATA.ROOT = "./test/temp/users";
     });
 
     before(function () {
         if (FS.existsSync("test/temp")) FS.rmSync("test/temp", { recursive: true });
-        FS.mkdirSync(Path.join(CONST.DATA.USER), {recursive : true});
-        Jobs.instance.reset().onLoad();
+        FS.mkdirSync(Path.join(CONST.DATA.ROOT), {recursive : true});
+        Jobs.instance.reset().load();
     });
 
     after(function () {
@@ -39,14 +39,14 @@ describe("Test Jobs class", function () {
         });
 
         it("a record.json file was created", async function (){
-            const path = Path.join(CONST.DATA.USER, "0", CONST.DATA.RECORD_FILENAME);
+            const path = Path.join(CONST.DATA.ROOT, "user@test", "0", CONST.DATA.RECORD_FILENAME);
             const actual = FS.existsSync(path);
             const expected = true;
             assert.strictEqual(actual, expected);
         });
 
         it("retrieve a specific job by id", async function (){
-            assert.ok(Jobs.instance.getJob(0));
+            assert.ok(Jobs.instance.getJobRecord(0));
         });
 
         it("retrieve all jobs by userid", async function (){
@@ -54,5 +54,96 @@ describe("Test Jobs class", function () {
             assert.ok(jobs[0]);
             assert.ok(jobs[1]);
         });
+
+        it("returned records are non-reflective (addJob)", async function (){
+            const record = await Jobs.instance.addJob("ima@user", "job description"); 
+            const expected = record.userid;
+            record.userid = "xxx";
+
+            const actual = Jobs.instance.getJobRecord(record.jobid).userid;            
+            assert.strictEqual(actual, expected);
+        });  
+        
+        it("returned records are non-reflective (saveRecord)", async function (){
+            const record0 = await Jobs.instance.addJob("ima@user", "job description");            
+            const record = await Jobs.instance.saveRecord(record0);  
+            record.userid = "xxx";
+
+            const actual = Jobs.instance.getJobRecord(record.jobid).userid;            
+            assert.strictEqual(actual, "ima@user");
+        });          
+
+        it("returned records are non-reflective (getJobRecord)", async function (){
+            const r = await Jobs.instance.addJob("ima@user", "job description");                        
+            const record = Jobs.instance.getJobRecord(r.jobid);
+            record.userid = "xxx";           
+            const actual = Jobs.instance.getJobRecord(record.jobid).userid;            
+            assert.strictEqual(actual, "ima@user");
+        });              
+
+        it("returned records are non-reflective (jobList)", async function (){
+            const r = await Jobs.instance.addJob("ima@user", "job description");                        
+            const record = Jobs.instance.getJobRecord(r.jobid);
+            record.userid = "xxx";           
+            const list = Jobs.instance.listJobs("ima@user");     
+            const actual = list[r.jobid].userid;
+            assert.strictEqual(actual, "ima@user");
+        });              
+
+        it("returned records are non-reflective (allJobs)", async function (){
+            const r = await Jobs.instance.addJob("ima@user", "job description");                        
+            const record = Jobs.instance.getJobRecord(r.jobid);
+            record.userid = "xxx";           
+            const list = Jobs.instance.allJobs();     
+            const actual = list[r.jobid].userid;
+            assert.strictEqual(actual, "ima@user");
+        });  
+
     });
+
+    describe("add a value to a record", async function () {
+        before(async function () {
+            const r = await Jobs.instance.addJob("test@value", "add a value");
+            this.jobid = r.jobid;
+            const record = await Jobs.instance.getJobRecord(this.jobid);
+            record.settings["key"] = "value";
+            await Jobs.instance.saveRecord(record);            
+        });
+
+        it("the value exists when retrieving the record", async function (){            
+            const record = Jobs.instance.getJobRecord(this.jobid);
+            const actual = record.settings.key;
+            const expected = "value";                       
+            assert.strictEqual(actual, expected);
+        });
+
+        it("the value exists when loading a new instance", async function (){            
+            const instance = new Jobs().load();
+            const record = instance.getJobRecord(this.jobid);
+            const actual = record.settings.key;
+            const expected = "value";                       
+            assert.strictEqual(actual, expected);
+        });
+    });
+
+    describe("delete a record", async function () {
+        before(async function () {
+            const r = await Jobs.instance.addJob("test@delete", "delete a record");
+            this.jobid = r.jobid;
+            await Jobs.instance.deleteJob(this.jobid);
+        });
+
+        it("the record does not exist in the active instance", async function (){            
+            const actual = Jobs.instance.hasJob(this.jobid);
+            const expected = false;      
+            assert.strictEqual(actual, expected);
+        });
+
+        it("the value does not exist in a new instance", async function (){            
+            const instance = new Jobs().load();
+            const actual = instance.hasJob(this.jobid);
+            const expected = false;                       
+            assert.strictEqual(actual, expected);
+        });
+    });    
 });

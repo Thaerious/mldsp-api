@@ -1,8 +1,11 @@
 import CONST from "../constants.js";
-import Jobs from "./Jobs.js";
+import express from "express";
+import Jobs from "../api/Jobs.js";
 import logger from "../setupLogger.js";
 
-async function middleware(req, res, next) {
+const route = express.Router();
+
+route.post(CONST.URL.LIST_JOBS, (req, res, next) => {
     const userid = req.body?.userid || req.query?.userid;
 
     if (!userid) {
@@ -16,11 +19,12 @@ async function middleware(req, res, next) {
     try {
         const records = Jobs.instance.listJobs(userid);
 
-        res.json({
+        res.write(JSON.stringify({
             status: CONST.STATUS.OK,
             route: CONST.URL.LIST_JOBS,
             records: records
-        });
+        }, null, 2));
+        res.end();
     } catch (error) {
         logger.log(new Date().toLocaleString());
         logger.log(CONST.URL.GET_JOB_RECORD);
@@ -32,6 +36,6 @@ async function middleware(req, res, next) {
             message: error.message
         });
     }
-}
+});
 
-export { middleware as default };
+export default route;

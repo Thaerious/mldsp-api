@@ -1,8 +1,11 @@
+import express from "express";
 import CONST from "../constants.js";
-import Jobs from "./Jobs.js";
+import Jobs from "../api/Jobs.js";
 import logger from "../setupLogger.js";
 
-async function middleware(req, res, next) {
+const route = express.Router();
+
+route.post(CONST.URL.CREATE_JOB, async (req, res, next) => {
     const userid = req.body?.userid || req.query?.userid;
     let desc = req.body?.desc || req.query?.desc;
 
@@ -33,6 +36,6 @@ async function middleware(req, res, next) {
             message: error.message
         });
     }
-}
+});
 
-export { middleware as default };
+export default route;
