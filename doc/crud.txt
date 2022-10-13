@@ -1,0 +1,13 @@
+Create /
+    /create_job
+
+Read
+    /get_jobs
+    /get_results
+
+Update
+    /upload-dataset
+    /submit_calculation
+
+Delete
+    /remove_result
