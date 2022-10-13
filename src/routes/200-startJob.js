@@ -1,13 +1,11 @@
 import CONST from "../constants.js";
 import express from "express";
-import fileUpload from "express-fileupload";
-import FS, { mkdir } from "fs";
+import FS from "fs";
 import Jobs from "../api/Jobs.js";
 import Path from "path";
 import { mkdirif } from "@thaerious/utility";
 
 const uploadRoute = express.Router();
-uploadRoute.use(fileUpload({ createParentPath: true }));
 
 uploadRoute.post(CONST.URL.START_JOB, (req, res, next) => {
     const jobid = req.body?.jobid || req.query?.jobid;

@@ -7,7 +7,7 @@ import Path from "path";
 import { mkdirif } from "@thaerious/utility";
 
 const route = express.Router();
-route.use(fileUpload({ createParentPath: true }));
+route.use(CONST.URL.UPLOAD_DATA, fileUpload({ createParentPath: true }));
 
 route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {
     const jobid = req.body?.jobid || req.query?.jobid;
@@ -19,7 +19,7 @@ route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {
             message: "missing parameter 'jobid'",
         });
     }
-    console.log(req.files);
+
     if (!req.files) {
         return res.json({
             status: CONST.STATUS.ERROR,
@@ -30,18 +30,19 @@ route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {
 
     const record = Jobs.instance.getJobRecord(jobid);
 
-    saveZipFile(record, req.files.file);
+    saveZipFile(record, req.files.fileupload);
 
     res.json({
         status: CONST.STATUS.OK,
         route: CONST.URL.UPLOAD_DATA,
-        message: `file received: ${req.files.file.name}`
+        message: `file received: ${req.files.fileupload.name}`
     })
 
     res.end();
 });
 
 function saveZipFile(record, file) {
+    console.log(file.name);
     mkdirif(record.dataPath());
     const path = Path.join(record.dataPath(), file.name);
     mkdirif(path);
