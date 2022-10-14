@@ -5,7 +5,7 @@ import logger from "../setupLogger.js";
 
 const route = express.Router();
 
-route.post(CONST.URL.ALL_JOBS, (req, res, next) => {
+route.use(CONST.URL.ALL_JOBS, (req, res, next) => {
     try {
         const records = Jobs.instance.allJobs();
 

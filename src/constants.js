@@ -7,7 +7,8 @@ const CONSTANTS = {
         UPLOAD_DATA: "/upload_data",
         START_JOB: "/start_job",
         SET_VALUE: "/set_value",
-        ALL_JOBS: "/all_jobs"
+        ALL_JOBS: "/all_jobs",
+        RETRIVE_RESULTS: "/retrieve_results"
     },
     PATH: {
         ROUTES: "./src/routes",

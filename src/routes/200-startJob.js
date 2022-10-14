@@ -5,7 +5,7 @@ import MLDSP from "../MLDSP.js";
 
 const route = express.Router();
 
-route.post(CONST.URL.START_JOB, async (req, res, next) => {
+route.use(CONST.URL.START_JOB, async (req, res, next) => {
     const jobid = req.body?.jobid || req.query?.jobid;
 
     if (!jobid) {

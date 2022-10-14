@@ -45,6 +45,10 @@ class JobRecord {
         return Path.join(this.path(), CONST.DATA.RESULTS_SUB);
     }
 
+    resultsJSON() {
+        return Path.join(this.path(), CONST.DATA.RESULTS_SUB, CONST.DATA.RESULTS_FILENAME);
+    }
+
     mkdir() {
         FS.mkdirSync(this.dataPath(), { recursive: true });
         FS.mkdirSync(this.resultsPath(), { recursive: true });

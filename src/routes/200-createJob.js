@@ -5,7 +5,7 @@ import logger from "../setupLogger.js";
 
 const route = express.Router();
 
-route.post(CONST.URL.CREATE_JOB, async (req, res, next) => {
+route.use(CONST.URL.CREATE_JOB, async (req, res, next) => {
     const userid = req.body?.userid || req.query?.userid;
     let desc = req.body?.desc || req.query?.desc;
 

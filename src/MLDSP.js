@@ -3,7 +3,7 @@ import child_process from "child_process";
 import logger from "./setupLogger.js";
 import Jobs from "./Jobs.js";
 import FS from "fs";
-import { seekfiles } from "@thaerious/utility";
+import Path from "path";
 
 /**
  * Interface to MLDSP cli.
@@ -52,7 +52,7 @@ class MLDSP {
                 } else {
                     this.jobRecord.status = CONST.STATUS.COMPLETE;
                     await Jobs.instance.saveRecord(this.jobRecord);
-                    const path = Path.join(records.resultsPath(), CONST.DATA.RESULTS_FILENAME);
+                    const path = Path.join(this.jobRecord.resultsJSON());
                     FS.writeFileSync(path, stdout);
                     resolve(stdout);
                 }
