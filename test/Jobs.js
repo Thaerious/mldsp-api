@@ -1,6 +1,6 @@
 import assert from "assert";
 import CONST from "../src/constants.js";
-import Jobs from "../src/api/Jobs.js";
+import Jobs from "../src/Jobs.js";
 import FS from "fs";
 import Path from "path";
 import ParseArgs from "@thaerious/parseargs";
