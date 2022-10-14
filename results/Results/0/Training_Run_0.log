@@ -1,0 +1,14 @@
+Run_name: 0
+Method: Chaos Game Representation (CGR)
+kmer: 3
+Median seq length: 16554.0
+Dataset size: 148
+Class sizes:Counter({'Haplorrhini': 115, 'Strepsirrhini': 33})
+CGR Strepsirrhini: cgr_k=3_NC_028718.1.npy
+CGR Haplorrhini: cgr_k=3_NC_023963.1.npy
+
+10X cross validation classifier accuracies:
+	LinearDiscriminant: 0.9590476190476191
+	LinearSVM: 0.9723809523809525
+	QuadSVM: 0.7771428571428571
+	KNN: 0.9385714285714288

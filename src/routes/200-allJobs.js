@@ -1,6 +1,6 @@
 import express from "express";
 import CONST from "../constants.js";
-import Jobs from "../api/Jobs.js";
+import Jobs from "../Jobs.js";
 import logger from "../setupLogger.js";
 
 const route = express.Router();

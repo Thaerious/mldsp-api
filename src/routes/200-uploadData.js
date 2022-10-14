@@ -2,9 +2,10 @@ import CONST from "../constants.js";
 import express from "express";
 import fileUpload from "express-fileupload";
 import FS from "fs";
-import Jobs from "../api/Jobs.js";
+import Jobs from "../Jobs.js";
 import Path from "path";
 import { mkdirif } from "@thaerious/utility";
+import unpackDataset from "../unpackDataset.js";
 
 const route = express.Router();
 route.use(CONST.URL.UPLOAD_DATA, fileUpload({ createParentPath: true }));
@@ -29,8 +30,11 @@ route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {
     }
 
     const record = Jobs.instance.getJobRecord(jobid);
+    record.dataset = req.files.fileupload.name;
+    Jobs.instance.saveRecord(record);
 
     saveZipFile(record, req.files.fileupload);
+    unpackDataset(record);
 
     res.json({
         status: CONST.STATUS.OK,

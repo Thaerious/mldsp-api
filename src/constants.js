@@ -10,20 +10,23 @@ const CONSTANTS = {
         ALL_JOBS: "/all_jobs"
     },
     PATH: {
-        ROUTES : "./src/routes"
+        ROUTES: "./src/routes",
+        MLDSP_EXE : "../venv/bin/MLDSP"
     },
     DATA: {
         ROOT: "./data/user/",
         DATA_SUB: "data",
         RESULTS_SUB: "results",
-        RECORD_FILENAME: "record.json"
+        RECORD_FILENAME: "record.json",
+        RESULTS_FILENAME: "results.json"
     },   
     STATUS: {
         ERROR: "error",
         OK: "ok",
         PENDING: "pending",
         COMPLETE: "complete",
-    },    
+        RUNNING: "running"
+    },        
 };
 
 export default CONSTANTS;

@@ -1,13 +1,10 @@
 import CONST from "../constants.js";
 import express from "express";
-import FS from "fs";
-import Jobs from "../api/Jobs.js";
-import Path from "path";
-import { mkdirif } from "@thaerious/utility";
+import Jobs from "../Jobs.js";
 
-const uploadRoute = express.Router();
+const route = express.Router();
 
-uploadRoute.post(CONST.URL.SET_VALUE, (req, res, next) => {
+route.post(CONST.URL.SET_VALUE, (req, res, next) => {
     const jobid = req.body?.jobid || req.query?.jobid;
     const key = req.body?.key || req.query?.key;
     const value = req.body?.value || req.query?.value;
@@ -63,11 +60,4 @@ uploadRoute.post(CONST.URL.SET_VALUE, (req, res, next) => {
     res.end();
 });
 
-function saveZipFile(record, file) {
-    mkdirif(record.dataPath());
-    const path = Path.join(record.dataPath(), file.name);
-    mkdirif(path);
-    FS.writeFileSync(path, file.data);
-}
-
-export default uploadRoute;
+export default route;

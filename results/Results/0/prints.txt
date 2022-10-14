@@ -1,0 +1,87 @@
+Building Fasta index
+Generating numerical sequences, applying DFT, computing magnitude spectra .... 
+Building distance matrix
+Performing classification .... 
+Computing fold 1
+	Accuracy of LinearDiscriminant = 0.9333333333333333
+Computing fold 2
+	Accuracy of LinearDiscriminant = 1.0
+Computing fold 3
+	Accuracy of LinearDiscriminant = 1.0
+Computing fold 4
+	Accuracy of LinearDiscriminant = 1.0
+Computing fold 5
+	Accuracy of LinearDiscriminant = 1.0
+Computing fold 6
+	Accuracy of LinearDiscriminant = 0.8666666666666667
+Computing fold 7
+	Accuracy of LinearDiscriminant = 0.9333333333333333
+Computing fold 8
+	Accuracy of LinearDiscriminant = 1.0
+Computing fold 9
+	Accuracy of LinearDiscriminant = 0.8571428571428571
+Computing fold 10
+	Accuracy of LinearDiscriminant = 1.0
+Computing fold 1
+	Accuracy of LinearSVM = 0.9333333333333333
+Computing fold 2
+	Accuracy of LinearSVM = 1.0
+Computing fold 3
+	Accuracy of LinearSVM = 0.9333333333333333
+Computing fold 4
+	Accuracy of LinearSVM = 1.0
+Computing fold 5
+	Accuracy of LinearSVM = 1.0
+Computing fold 6
+	Accuracy of LinearSVM = 1.0
+Computing fold 7
+	Accuracy of LinearSVM = 1.0
+Computing fold 8
+	Accuracy of LinearSVM = 1.0
+Computing fold 9
+	Accuracy of LinearSVM = 0.8571428571428571
+Computing fold 10
+	Accuracy of LinearSVM = 1.0
+Computing fold 1
+	Accuracy of QuadSVM = 0.8
+Computing fold 2
+	Accuracy of QuadSVM = 0.8
+Computing fold 3
+	Accuracy of QuadSVM = 0.8
+Computing fold 4
+	Accuracy of QuadSVM = 0.8
+Computing fold 5
+	Accuracy of QuadSVM = 0.8
+Computing fold 6
+	Accuracy of QuadSVM = 0.7333333333333333
+Computing fold 7
+	Accuracy of QuadSVM = 0.7333333333333333
+Computing fold 8
+	Accuracy of QuadSVM = 0.7333333333333333
+Computing fold 9
+	Accuracy of QuadSVM = 0.7857142857142857
+Computing fold 10
+	Accuracy of QuadSVM = 0.7857142857142857
+Computing fold 1
+	Accuracy of KNN = 1.0
+Computing fold 2
+	Accuracy of KNN = 1.0
+Computing fold 3
+	Accuracy of KNN = 0.8666666666666667
+Computing fold 4
+	Accuracy of KNN = 1.0
+Computing fold 5
+	Accuracy of KNN = 1.0
+Computing fold 6
+	Accuracy of KNN = 0.8666666666666667
+Computing fold 7
+	Accuracy of KNN = 0.9333333333333333
+Computing fold 8
+	Accuracy of KNN = 0.9333333333333333
+Computing fold 9
+	Accuracy of KNN = 0.8571428571428571
+Computing fold 10
+	Accuracy of KNN = 0.9285714285714286
+Average accuracy over all classifiers 0.9117857142857144
+Scaling & data visualisation...
+**** Processing completed ****
