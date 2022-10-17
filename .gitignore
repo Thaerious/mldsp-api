@@ -1,0 +1,16 @@
+*.code-workspace
+www/compiled
+www/linked
+**/.*
+node_modules/
+**/venv/
+venv
+data/
+mldsp/
+cert*.*/
+log/
+~*
+test/temp/
+www/coverage/
+
+!.gitignore
