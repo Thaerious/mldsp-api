@@ -1,23 +1,15 @@
 import express from "express";
 import CONST from "../constants.js";
 import Jobs from "../Jobs.js";
-import logger from "../setupLogger.js";
+import getArg from "../getArg.js";
+import handleError from "../handleError.js";
 
 const route = express.Router();
 
 route.use(CONST.URL.CREATE_JOB, async (req, res, next) => {
-    const userid = req.body?.userid || req.query?.userid;
-    let desc = req.body?.desc || req.query?.desc;
-
-    if (!userid) {
-        return res.json({
-            status: CONST.STATUS.ERROR,
-            route: CONST.URL.CREATE_JOB,
-            message: "missing parameter 'userid'",
-        });
-    }
-
     try {
+        const userid = getArg("userid", req);
+        let desc = req.body?.desc || req.query?.desc;
         const jobRecord = await Jobs.instance.addJob(userid, desc || "description n/a");
 
         res.json({
@@ -26,15 +18,9 @@ route.use(CONST.URL.CREATE_JOB, async (req, res, next) => {
             jobid: jobRecord.jobid,
         });
     } catch (error) {
-        logger.log(new Date().toLocaleString());
-        logger.log(CONST.URL.CREATE_JOB);
-        logger.log(error);
-        console.log(error);
-        res.json({
-            status: CONST.STATUS.ERROR,
-            route: CONST.URL.CREATE_JOB,
-            message: error.message
-        });
+        handleError(error, CONST.URL.CREATE_JOB, res);
+    } finally {
+        res.end();        
     }
 });
 

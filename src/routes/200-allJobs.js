@@ -1,7 +1,7 @@
 import express from "express";
 import CONST from "../constants.js";
 import Jobs from "../Jobs.js";
-import logger from "../setupLogger.js";
+import handleError from "../handleError.js";
 
 const route = express.Router();
 
@@ -16,15 +16,9 @@ route.use(CONST.URL.ALL_JOBS, (req, res, next) => {
         }, null, 2));
         res.end();
     } catch (error) {
-        logger.log(new Date().toLocaleString());
-        logger.log(CONST.URL.GET_JOB_RECORD);
-        logger.log(error);
-        console.log(error);
-        res.json({
-            status: CONST.STATUS.ERROR,
-            route: CONST.URL.ALL_JOBS,
-            message: error.message
-        });
+        handleError(error, CONST.URL.ALL_JOBS, res);
+    } finally {
+        res.end();        
     }
 });
 

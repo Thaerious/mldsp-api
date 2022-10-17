@@ -1,23 +1,15 @@
 import CONST from "../constants.js";
 import express from "express";
 import Jobs from "../Jobs.js";
-import logger from "../setupLogger.js";
+import getArg from "../getArg.js";
 import { fsjson } from "@thaerious/utility";
+import handleError from "../handleError.js";
 
 const route = express.Router();
 
-route.use(CONST.URL.RETRIVE_RESULTS, (req, res, next) => {
-    const jobid = req.body?.jobid || req.query?.jobid;
-
-    if (!jobid) {
-        return res.json({
-            status: CONST.STATUS.ERROR,
-            route: CONST.URL.RETRIVE_RESULTS,
-            message: "missing parameter 'jobid'",
-        });
-    }
-
+route.use(CONST.URL.RETRIEVE_RESULTS, (req, res, next) => {
     try {
+        const jobid = getArg("jobid", req);
         const record = Jobs.instance.getJobRecord(jobid);
         const results = fsjson.load(record.resultsJSON());
 
@@ -26,17 +18,10 @@ route.use(CONST.URL.RETRIVE_RESULTS, (req, res, next) => {
             route: CONST.URL.LIST_JOBS,
             results: results
         }, null, 2));
-        res.end();
     } catch (error) {
-        logger.log(new Date().toLocaleString());
-        logger.log(CONST.URL.GET_JOB_RECORD);
-        logger.log(error);
-        console.log(error);
-        res.json({
-            status: CONST.STATUS.ERROR,
-            route: CONST.URL.LIST_JOBS,
-            message: error.message
-        });
+        handleError(error, CONST.URL.RETRIEVE_RESULTS, res);
+    } finally {
+        res.end();        
     }
 });
 

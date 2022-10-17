@@ -52,8 +52,7 @@ class MLDSP {
                 } else {
                     this.jobRecord.status = CONST.STATUS.COMPLETE;
                     await Jobs.instance.saveRecord(this.jobRecord);
-                    const path = Path.join(this.jobRecord.resultsJSON());
-                    FS.writeFileSync(path, stdout);
+                    FS.writeFileSync(this.jobRecord.resultsJSON(), stdout);
                     resolve(stdout);
                 }
             });
