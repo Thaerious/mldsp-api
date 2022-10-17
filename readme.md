@@ -13,3 +13,8 @@
     npm i 
     node .
 
+# Tests and Coverage
+To run tests which output coverage to /www/coverage
+
+    npx c8 -r html -o www/coverage mocha
+

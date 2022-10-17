@@ -30,8 +30,7 @@ class MLDSP {
 
         logger.log(new Date().toLocaleString());
         logger.log(cmd);
-        console.log(cmd);
-        this.startProcess(cmd);
+        await this.startProcess(cmd);
     }
 
     /**
