@@ -7,6 +7,7 @@ import { mkdirif } from "@thaerious/utility";
 import unpackDataset from "../unpackDataset.js";
 import getArg from "../getArg.js";
 import handleError from "../handleError.js";
+import handleResponse from "../handleResponse.js";
 
 const route = express.Router();
 route.use(CONST.URL.UPLOAD_DATA, fileUpload({ createParentPath: true }));
@@ -22,12 +23,7 @@ route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {
 
         saveZipFile(record, req.files.fileupload);
         unpackDataset(record);
-
-        res.json({
-            status: CONST.STATUS.OK,
-            route: CONST.URL.UPLOAD_DATA,
-            message: `file received: ${req.files.fileupload.name}`
-        });        
+        handleResponse(res, CONST.URL.UPLOAD_DATA, { message: `file received: ${req.files.fileupload.name}` });
     } catch (error) {
         handleError(error, CONST.URL.UPLOAD_DATA, res);
     } finally {

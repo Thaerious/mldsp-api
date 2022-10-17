@@ -4,6 +4,7 @@ import Jobs from "../Jobs.js";
 import getArg from "../getArg.js";
 import { fsjson } from "@thaerious/utility";
 import handleError from "../handleError.js";
+import handleResponse from "../handleResponse.js";
 
 const route = express.Router();
 
@@ -12,12 +13,7 @@ route.use(CONST.URL.RETRIEVE_RESULTS, (req, res, next) => {
         const jobid = getArg("jobid", req);
         const record = Jobs.instance.getJobRecord(jobid);
         const results = fsjson.load(record.resultsJSON());
-
-        res.write(JSON.stringify({
-            status: CONST.STATUS.OK,
-            route: CONST.URL.LIST_JOBS,
-            results: results
-        }, null, 2));
+        handleResponse(res, CONST.URL.RETRIEVE_RESULTS, {results: results});
     } catch (error) {
         handleError(error, CONST.URL.RETRIEVE_RESULTS, res);
     } finally {

@@ -20,5 +20,8 @@
     "mocha": "^10.0.0",
     "unzipper": "^0.10.11"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "c8": "^7.12.0"
+  }
 }
