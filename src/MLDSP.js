@@ -3,7 +3,6 @@ import child_process from "child_process";
 import logger from "./setupLogger.js";
 import Jobs from "./Jobs.js";
 import FS from "fs";
-import Path from "path";
 
 /**
  * Interface to MLDSP cli.

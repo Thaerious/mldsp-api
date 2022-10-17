@@ -49,11 +49,6 @@ class JobRecord {
         return Path.join(this.path(), CONST.DATA.RESULTS_SUB, CONST.DATA.RESULTS_FILENAME);
     }
 
-    mkdir() {
-        FS.mkdirSync(this.dataPath(), { recursive: true });
-        FS.mkdirSync(this.resultsPath(), { recursive: true });
-    }
-
     saveToFile() {
         mkdirif(this.recordPath());
         FS.writeFileSync(this.recordPath(), JSON.stringify(this));
