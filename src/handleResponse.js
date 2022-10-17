@@ -5,7 +5,7 @@ function handleResponse(res, route, obj = {}) {
         status: CONST.STATUS.OK,
         route: route,
         ...obj
-    });
+    }, null, 2);
 
     res.write(msg);
 }

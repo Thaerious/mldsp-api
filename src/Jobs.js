@@ -104,7 +104,7 @@ class Jobs {
         return lodash.cloneDeep(record);
     }
 
-    async saveRecord(record) {
+    saveRecord(record) {
         const jobid = record.jobid;
         record.saveToFile();
         this.jobStore[jobid] = record;

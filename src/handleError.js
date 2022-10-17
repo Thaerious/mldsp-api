@@ -5,11 +5,12 @@ function handleError(err, route, res) {
     logger.log(new Date().toLocaleString());
     logger.log(route);
     logger.log(err);
-    res.json({
+    const msg = JSON.stringify({
         status: CONST.STATUS.ERROR,
         route: route,
         message: err.message
-    });
+    }, null, 2);
+    res.write(msg);
 }
 
 export default handleError;
