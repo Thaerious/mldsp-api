@@ -114,16 +114,12 @@ class Jobs {
     /**
      * Remove the job record and the job results directory.
      */
-    deleteJob(jobid) {
-        console.log("delete " + jobid);
-        
+    deleteJob(jobid) {        
         if (!this.hasJob(jobid)) return;
         const record = this.getJobRecord(jobid);
         const path = record.path();
         if (FS.existsSync(path)) FS.rmSync(path, { recursive: true });
-        delete this.jobStore[jobid];
-
-        console.log(this.jobStore);        
+        delete this.jobStore[jobid];    
     }
 
     /**

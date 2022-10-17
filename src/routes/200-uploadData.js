@@ -15,7 +15,8 @@ route.use(CONST.URL.UPLOAD_DATA, fileUpload({ createParentPath: true }));
 route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {    
     try {
         const jobid = getArg("jobid", req);
-        getArg("files", req, "file not found");
+
+        if (!req.files) throw new Error("file not found");
 
         const record = Jobs.instance.getJobRecord(jobid);
         record.zipfile = req.files.fileupload.name;
