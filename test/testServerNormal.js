@@ -6,6 +6,7 @@ import Jobs from "../src/Jobs.js";
 import request from "supertest";
 import Server from "../src/Server.js";
 
+// Test the server operating normally with correct inputs.
 describe("Test MLDSP action", function () {
 
     before(function () {
@@ -150,7 +151,142 @@ describe("Test MLDSP action", function () {
             it(`record status is complete`, async function () {
                 assert.strictEqual(this.body.record.status, CONST.STATUS.COMPLETE);
             });              
-        });            
+        });    
+        
+        describe(`create second job record`, async function () {
+            before(async function () {
+                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, "userid=user@test");
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.CREATE_JOB);
+            });
+
+            it(`second new record on empty server has job id 1`, async function () {
+                assert.strictEqual(this.body.jobid, 1);
+            });
+        });       
+        
+        describe(`retrieve list of all records (2 jobs)`, async function () {
+            before(async function () {
+                this.body = await callRoute(this.server, CONST.URL.ALL_JOBS);
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.ALL_JOBS);
+            });
+
+            it(`there will be 2 records in the result`, async function () {
+                const records = this.body.records;
+                const actual = Object.keys(records).length;
+                assert.strictEqual(actual, 2);
+            });
+        });      
+        
+        describe(`set a value in a job`, async function () {
+            before(async function () {
+                const args = "key=my_key&value=my_value&jobid=1"
+                this.body = await callRoute(this.server, CONST.URL.SET_VALUE, args);
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.SET_VALUE);
+            });
+
+            it(`the record's settings field will contain the value`, async function () {
+                const res = await callRoute(this.server, CONST.URL.GET_JOB_RECORD, "jobid=1");
+                const record = res.record;
+                assert.strictEqual(record.settings["my_key"], "my_value");
+            });
+        });   
+
+        describe(`create third job record with a different user`, async function () {
+            before(async function () {
+                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, "userid=user2@test");
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.CREATE_JOB);
+            });
+        });    
+
+        describe(`retrieve list of all records (2 jobs) for first user`, async function () {
+            before(async function () {
+                const msg = "userid=user@test";
+                this.body = await callRoute(this.server, CONST.URL.LIST_JOBS, msg);
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.LIST_JOBS);
+            });
+
+            it(`there will be 2 records in the result`, async function () {
+                const records = this.body.records;
+                const actual = Object.keys(records).length;
+                assert.strictEqual(actual, 2);
+            });
+        });   
+
+        describe(`retrieve the results for the first job`, async function () {
+            before(async function () {
+                const msg = "jobid=0";
+                this.body = await callRoute(this.server, CONST.URL.RETRIEVE_RESULTS, msg);
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.RETRIEVE_RESULTS);
+            });
+
+            it(`result exists`, async function () {
+                const results = this.body.results;
+                assert.ok(results);
+            });
+        });  
+
+        describe(`delete the second job`, async function () {
+            before(async function () {
+                this.body = await callRoute(this.server, CONST.URL.DELETE_JOB, "jobid=1");
+            });
+
+            it(`return status ok`, async function () {
+                assert.strictEqual(this.body.status, CONST.STATUS.OK);
+            });
+
+            it(`return url (route) correct`, async function () {
+                assert.strictEqual(this.body.route, CONST.URL.DELETE_JOB);
+            });
+
+            it(`get_all returns 2 records`, async function () {
+                const allJobs = await callRoute(this.server, CONST.URL.ALL_JOBS);
+                const records = allJobs.records;                
+                const actual = Object.keys(records).length;
+                assert.strictEqual(actual, 2);
+            });
+        });    
     });
 });
 
