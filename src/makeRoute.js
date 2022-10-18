@@ -16,7 +16,6 @@ function makeRoute(url, cb = async req => { }, route = express.Router()) {
         } catch (error) {
             handleError(error, url, res);
         } finally {
-            console.log("finally");
             res.end();        
         }
     });

@@ -18,6 +18,7 @@
     "express-fileupload": "^1.4.0",
     "lodash": "^4.17.21",
     "mocha": "^10.0.0",
+    "supertest": "^6.3.0",
     "unzipper": "^0.10.11"
   },
   "type": "module",

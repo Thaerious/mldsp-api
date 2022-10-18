@@ -21,7 +21,6 @@ function unpackDataset(record) {
             .pipe(unzipper.Extract({ path: tempPath }))
             .on("close", () => {                
                 const srcPath = seekDataset(tempPath);
-                console.log(srcPath);
                 if (!srcPath) throw new Error("Dataset not found in zip file.");
 
                 const destPath = record.dataPath();
@@ -36,7 +35,6 @@ function unpackDataset(record) {
  * Copy src dir to dest dir, throws error if dest exists.
  */
 function copyFile(src, dest) {
-    console.log(dest, FS.existsSync(dest));
     if (FS.existsSync(dest)) return false;
     FS.cpSync(src, dest, { recursive: true });
     return true;

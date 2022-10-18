@@ -6,14 +6,14 @@ import CONST from "./constants.js";
 import logger from "./setupLogger.js";
 
 class Server {
-    async init () {
+    async init (path = CONST.PATH.ROUTES) {
         logger.verbose("Initialize Server");        
         this.app = Express();
 
         this.app.set(`views`, `www/linked`);
         this.app.set(`view engine`, `ejs`);
 
-        await this.loadRoutes();
+        await this.loadRoutes(path);
         return this;
     }
 
@@ -35,6 +35,7 @@ class Server {
     }
 
     async loadRoutes(path = CONST.PATH.ROUTES) {
+        logger.verbose(`routes path ${path} ${FS.existsSync(path)}`); 
         if (!FS.existsSync(path)) return;
         
         const contents = FS.readdirSync(path).sort();
@@ -43,6 +44,7 @@ class Server {
             const fullpath = Path.join(process.cwd(), path, entry);
             const { default: route } = await import(fullpath);
             this.app.use(route);
+            logger.verbose(`route ${fullpath}`);        
         }        
     }
 }

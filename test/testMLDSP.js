@@ -22,6 +22,7 @@ describe("Test MLDSP action", function () {
     describe("submit a job", async function () {
         before(async function () {
             this.timeout(25000);
+            console.log("before")
             const record = await Jobs.instance.addJob("mldsp@test", "sanity test");
 
             const from = "test/assets/NotPrimates.zip";
@@ -33,6 +34,7 @@ describe("Test MLDSP action", function () {
 
             await unpackDataset(record);
             await new MLDSP().run(record);
+            console.log("after")
             this.jobid = record.jobid;
         });
 
