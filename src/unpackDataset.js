@@ -19,14 +19,16 @@ function unpackDataset(record) {
         // unzip the saved file to the final destination
         FS.createReadStream(record.zipPath())
             .pipe(unzipper.Extract({ path: tempPath }))
-            .on("close", () => {                
+            .on("close", () => {
                 const srcPath = seekDataset(tempPath);
-                if (!srcPath) throw new Error("Dataset not found in zip file.");
-
-                const destPath = record.dataPath();
-                copyFile(srcPath, destPath);
-                rmSync(tempPath, { recursive: true });
-                resolve();                    
+                if (!srcPath) {
+                    reject(new Error("Missing metadata.csv in zip file."));
+                } else {
+                    const destPath = record.dataPath();
+                    copyFile(srcPath, destPath);
+                    rmSync(tempPath, { recursive: true });
+                    resolve();
+                }
             });
     });
 }

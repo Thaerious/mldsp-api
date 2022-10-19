@@ -12,7 +12,7 @@ import handleResponse from "../handleResponse.js";
 const route = express.Router();
 route.use(CONST.URL.UPLOAD_DATA, fileUpload({ createParentPath: true }));
 
-route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {    
+route.post(CONST.URL.UPLOAD_DATA, async (req, res, next) => {    
     try {
         const jobid = getArg("jobid", req);
 
@@ -23,9 +23,11 @@ route.post(CONST.URL.UPLOAD_DATA, (req, res, next) => {
         Jobs.instance.saveRecord(record);
 
         saveZipFile(record, req.files.fileupload);
-        unpackDataset(record);
+        await unpackDataset(record);
         handleResponse(res, CONST.URL.UPLOAD_DATA, { message: `file received: ${req.files.fileupload.name}` });
     } catch (error) {
+        console.log("handle error");
+        console.log(error.message);
         handleError(error, CONST.URL.UPLOAD_DATA, res);
     } finally {
         res.end();        

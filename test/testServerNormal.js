@@ -3,8 +3,8 @@ import FS from "fs";
 import Path from "path";
 import CONST from "../src/constants.js";
 import Jobs from "../src/Jobs.js";
-import request from "supertest";
 import Server from "../src/Server.js";
+import { uploadData, callRoute } from "./helpers/helpers.js";
 
 // Test the server operating normally with correct inputs.
 describe("Test MLDSP action", function () {
@@ -76,7 +76,7 @@ describe("Test MLDSP action", function () {
 
         describe(`upload dataset to the server`, async function () {
             before(async function () {
-                this.body = await uploadData(this.server);
+                this.body = await uploadData(this.server, 0);
             });
 
             it(`return status ok`, async function () {
@@ -289,33 +289,3 @@ describe("Test MLDSP action", function () {
         });    
     });
 });
-
-async function uploadData(server, url = CONST.URL.UPLOAD_DATA) {
-    var body = {};
-
-    await request(server.app)
-        .post(url)
-        .field("jobid", "0")
-        .field('complex_object', '{}', { contentType: 'application/json' })
-        .attach('fileupload', './test/assets/NotPrimates.zip')
-        .then(res => {
-            body = res.body;
-        });
-
-    return body;
-}
-
-async function callRoute(server, url, send = "") {
-    var body = {};
-
-    await request(server.app)
-        .post(url)
-        .send(send)
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then(res => {
-            body = res.body;
-        });
-
-    return body;
-}
