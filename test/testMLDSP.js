@@ -33,7 +33,7 @@ describe("Test MLDSP action", function () {
 
             await unpackDataset(record);
             await new MLDSP().run(record);
-            console.log("after")
+
             this.jobid = record.jobid;
         });
 

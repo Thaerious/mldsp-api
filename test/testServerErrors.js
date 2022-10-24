@@ -37,7 +37,6 @@ describe("Test the Server in Abnormal Operation", function () {
         describe('upload a zip file missing the metadata.csv file', async function () {
             before(async function () {
                 this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, {userid : "error@test"});
-                console.log(this.body);
                 this.body = await uploadData(this.server, this.body.jobid, "MissingCSV.zip");
             });
 
@@ -46,7 +45,6 @@ describe("Test the Server in Abnormal Operation", function () {
             });
 
             it(`return url (route) correct`, async function () {
-                console.log(this.body);
                 assert.strictEqual(this.body.route, CONST.URL.UPLOAD_DATA);
             });
         });

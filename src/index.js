@@ -1,8 +1,8 @@
 import Server from "./Server.js";
-import ParseArgs from "@thaerious/parseargs"
+import API_CONST from "./constants.js";
+import makeRoute, { routeFactory } from "./makeRoute.js";
+import handleError from "./handleError.js";
+import handleResponse from "./handleResponse.js";
+import getArg from "./getArg.js";
 
-const args = new ParseArgs().run();
-const port = args.flags["port"];
-const server = new Server();
-await server.init();
-server.start(port);
+export { Server, API_CONST, makeRoute, handleError, handleResponse, routeFactory, getArg }

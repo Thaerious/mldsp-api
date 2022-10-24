@@ -20,7 +20,7 @@ class Server {
     start (port = 7632, ip = `0.0.0.0`) {
         this.server = http.createServer(this.app);
         this.server.listen(port, ip, () => {
-            logger.standard(`Listening on port ${port}`);
+            logger.log(`Listening on port ${port}`);
         });
 
         process.on(`SIGINT`, () => this.stop(this.server));
@@ -29,7 +29,7 @@ class Server {
     }
 
     stop () {
-        logger.standard(`Stopping server`);
+        logger.log(`Stopping server`);
         this.server.close();
         process.exit();
     }

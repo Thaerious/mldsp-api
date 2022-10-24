@@ -27,7 +27,7 @@ const CONSTANTS = {
         PENDING: "pending",
         COMPLETE: "complete",
         RUNNING: "running"
-    },        
+    }        
 };
 
 export default CONSTANTS;
