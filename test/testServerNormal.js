@@ -7,7 +7,7 @@ import Server from "../src/Server.js";
 import { uploadData, callRoute } from "./helpers/helpers.js";
 
 // Test the server operating normally with correct inputs.
-describe("Test MLDSP action", function () {
+describe("testServerNormal.js : Test the Server in Normal Operation", function () {
 
     before(function () {
         CONST.DATA.ROOT = "./test/temp/users";

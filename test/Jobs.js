@@ -6,7 +6,7 @@ import Path from "path";
 import ParseArgs from "@thaerious/parseargs";
 const args = new ParseArgs().run();
 
-describe("Test Jobs class", function () {
+describe("Jobs.js : Test Jobs class", function () {
     before(function () {
         CONST.DATA.ROOT = "./test/temp/users";
     });

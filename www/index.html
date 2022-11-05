@@ -7,14 +7,14 @@
 
 <body>
     <div id="left">
-        <form action="/create_job" method="post">
+        <form action="/create_job" method="post" enctype="multipart/form-data">
             <b>Create Job</b><br>
             <span>userid</span>
             <input type="text" name="userid" value="unset"><br>
             <input type="submit"><br>
         </form>
 
-        <form action="/delete_job" method="post">
+        <form action="/delete_job" method="post" enctype="multipart/form-data">
             <b>Delete Job</b><br>
             <span>jobid</span>
             <input type="number" name="jobid" value="0"><br>
@@ -29,14 +29,14 @@
             <input type="submit"><br>
         </form>
 
-        <form action="/start_job" method="post">
+        <form action="/start_job" method="post" enctype="multipart/form-data">
             <b>Start Job</b><br>
             <span>jobid</span>
             <input type="number" name="jobid" value="0"><br>
             <input type="submit"><br>
         </form>
 
-        <form action="/set_value" method="post">
+        <form action="/set_value" method="post" enctype="multipart/form-data">
             <b>Set Value</b><br>
             <span>jobid</span>
             <input type="number" name="jobid" value="0"><br>
@@ -47,28 +47,28 @@
     </div>
 
     <div id="right">
-        <form action="/retrieve_results" method="post">
+        <form action="/retrieve_results" method="post" enctype="multipart/form-data">
             <b>Retrieve Results</b><br>
             <span>jobid</span>
             <input type="number" name="jobid" value="0"><br>
             <input type="submit"><br>
         </form>
 
-        <form action="/get_job_record" method="post">
+        <form action="/get_job_record" method="post" enctype="multipart/form-data">
             <b>Get Job Record</b><br>
             <span>jobid</span>
             <input type="number" name="jobid" value="0"><br>
             <input type="submit"><br>
         </form>
 
-        <form action="/list_jobs" method="post">
+        <form action="/list_jobs" method="post" enctype="multipart/form-data">
             <b>List Jobs</b><br>
             <span>userid</span>
             <input type="text" name="userid" value="unset"><br>
             <input type="submit"><br>
         </form>
 
-        <form action="/all_jobs" method="post">
+        <form action="/all_jobs" method="post" enctype="multipart/form-data">
             <b>All Jobs</b><br>
             <input type="submit"><br>
         </form>    

@@ -1,9 +1,10 @@
 import Express from "express";
-import bodyParser from "body-parser";
+import multer from "multer";
 
 const apiRouter = Express.Router();
 
-apiRouter.use(bodyParser.json());
-apiRouter.use(bodyParser.urlencoded({ extended: false }));
+apiRouter.use(
+    multer({ dest: 'data/temp/' }).single('fileupload')
+);
 
 export default apiRouter;

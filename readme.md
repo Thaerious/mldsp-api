@@ -21,3 +21,5 @@ To run tests which output coverage to /www/coverage
 # Start the Server
     npm run server
 
+Browse to http://localhost:7632/ to view test page.
+

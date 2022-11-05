@@ -6,7 +6,7 @@ import Jobs from "../src/Jobs.js";
 import Server from "../src/Server.js";
 import { uploadData, callRoute } from "./helpers/helpers.js";
 
-describe("Test the Server in Abnormal Operation", function () {
+describe("testServerErrors.js : Test the Server in Abnormal Operation", function () {
 
     before(function () {
         CONST.DATA.ROOT = "./test/temp/users";

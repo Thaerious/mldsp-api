@@ -38,14 +38,14 @@ appLogger.channel(`verbose`).enabled = false;
 
 if (args.flags["verbose"]) appLogger.channel(`verbose`).enabled = true;
 
-appLogger.channel(`log`).log = (text) => {
-    FS.appendFileSync(getLogFile(), text + "\n");
-}
+// appLogger.channel(`log`).log = (text) => {
+//     FS.appendFileSync(getLogFile(), text + "\n");
+// }
 
-appLogger.channel("error").log = function(string){
-    console.error("Error: see log files");
-    const path = mkdirif(process.env.LOG_DIR, "error.log");
-    FS.appendFileSync(path, "\n *** " + new Date().toString() + "\n" + string + "\n");
-}
+// appLogger.channel("error").log = function(string){
+//     console.error("Error: see log files");
+//     const path = mkdirif(process.env.LOG_DIR, "error.log");
+//     FS.appendFileSync(path, "\n *** " + new Date().toString() + "\n" + string + "\n");
+// }
 
 export default appLogger.all();

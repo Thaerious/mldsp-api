@@ -23,7 +23,10 @@ import handleResponse from "./handleResponse.js";
  * @returns the express router object
  */
 function makeRoute(url, cb = async req => { }, route = express.Router()) {
-    route.use(url, routeFactory(url, cb));
+    route.use(
+        url,
+        routeFactory(url, cb)
+    );
     return route;
 }
 

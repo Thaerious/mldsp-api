@@ -3,7 +3,9 @@ import CONST from "./constants.js";
 
 function handleError(err, route, req, res) {
     res.set('Content-Type', 'application/json');
-    logger.log(req.mldsp.hash + ' ' + err);
+    const hash = req.mldsp?.hash ?? "";
+    logger.log(hash + ' ' + err);
+    logger.log(err.stack);
     const msg = JSON.stringify({
         status: CONST.STATUS.ERROR,
         route: route,
