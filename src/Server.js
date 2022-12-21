@@ -42,9 +42,9 @@ class Server {
 
         for (const entry of contents) {
             const fullpath = Path.join(process.cwd(), path, entry);
+            logger.verbose(`route ${fullpath}`);     
             const { default: route } = await import(fullpath);
-            this.app.use(route);
-            logger.verbose(`route ${fullpath}`);        
+            this.app.use(route);   
         }        
     }
 }

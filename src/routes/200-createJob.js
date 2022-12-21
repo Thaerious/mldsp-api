@@ -2,11 +2,20 @@ import CONST from "../constants.js";
 import Jobs from "../Jobs.js";
 import getArg from "../getArg.js";
 import makeRoute from "../makeRoute.js";
+import multer from "multer";
+import express from "express";
 
-export default makeRoute(CONST.URL.CREATE_JOB, async req => {
-    const userid = getArg("userid", req);
-    let desc = req.body?.desc || req.query?.desc;
-    const jobRecord = await Jobs.instance.addJob(userid, desc || "description n/a");
-    
-    return { jobid: jobRecord.jobid };
-});
+const route = express.Router();
+route.use(CONST.URLS.CREATE_JOB, multer().none());
+
+// Create a new job record
+export default makeRoute(
+    CONST.URLS.CREATE_JOB,
+    async req => {
+        const userid = getArg("userid", req);
+        let desc = req.body?.desc || req.query?.desc;
+        const jobRecord = await Jobs.instance.addJob(userid, desc || "description n/a");
+        return { jobid: jobRecord.jobid };
+    }
+    , route
+);

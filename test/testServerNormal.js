@@ -23,7 +23,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
     describe('test routes in normal operation on empty server', async function () {
         describe(`create new job record`, async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, "userid=user@test");
+                this.body = await callRoute(this.server, CONST.URLS.CREATE_JOB, "userid=user@test");
             });
 
             it(`return status ok`, async function () {
@@ -31,7 +31,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.CREATE_JOB);
+                assert.strictEqual(this.body.route, CONST.URLS.CREATE_JOB);
             });
 
             it(`new record on empty server has job id 0`, async function () {
@@ -42,7 +42,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
         describe(`retrieve job record (of new job)`, async function () {
             before(async function () {
                 this.timeout(25000);
-                this.body = await callRoute(this.server, CONST.URL.GET_JOB_RECORD, "jobid=0");
+                this.body = await callRoute(this.server, CONST.URLS.GET_JOB_RECORD, "jobid=0");
             });
 
             it(`return status ok`, async function () {
@@ -50,7 +50,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.GET_JOB_RECORD);
+                assert.strictEqual(this.body.route, CONST.URLS.GET_JOB_RECORD);
             });
 
             it(`has a record field`, async function () {
@@ -84,14 +84,14 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.UPLOAD_DATA);
+                assert.strictEqual(this.body.route, CONST.URLS.UPLOAD_DATA);
             });
         });
 
         describe(`retrieve job record (of ready job)`, async function () {
             before(async function () {
                 this.timeout(25000);
-                this.body = await callRoute(this.server, CONST.URL.GET_JOB_RECORD, "jobid=0");
+                this.body = await callRoute(this.server, CONST.URLS.GET_JOB_RECORD, "jobid=0");
             });
 
             it(`return status ok`, async function () {
@@ -99,7 +99,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.GET_JOB_RECORD);
+                assert.strictEqual(this.body.route, CONST.URLS.GET_JOB_RECORD);
             });
 
             it(`has a record field`, async function () {
@@ -118,7 +118,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
         describe(`start the job`, async function () {
             before(async function () {
                 this.timeout(25000);
-                this.body = await callRoute(this.server, CONST.URL.START_JOB, "jobid=0");
+                this.body = await callRoute(this.server, CONST.URLS.START_JOB, "jobid=0");
             });
 
             it(`return status ok`, async function () {
@@ -126,14 +126,14 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.START_JOB);
+                assert.strictEqual(this.body.route, CONST.URLS.START_JOB);
             });
         });   
         
         describe(`retrieve job record (of finished job)`, async function () {
             before(async function () {
                 this.timeout(25000);
-                this.body = await callRoute(this.server, CONST.URL.GET_JOB_RECORD, "jobid=0");
+                this.body = await callRoute(this.server, CONST.URLS.GET_JOB_RECORD, "jobid=0");
             });
 
             it(`return status ok`, async function () {
@@ -141,7 +141,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.GET_JOB_RECORD);
+                assert.strictEqual(this.body.route, CONST.URLS.GET_JOB_RECORD);
             });
 
             it(`has a record field`, async function () {
@@ -155,7 +155,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
         
         describe(`create second job record`, async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, "userid=user@test");
+                this.body = await callRoute(this.server, CONST.URLS.CREATE_JOB, "userid=user@test");
             });
 
             it(`return status ok`, async function () {
@@ -163,7 +163,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.CREATE_JOB);
+                assert.strictEqual(this.body.route, CONST.URLS.CREATE_JOB);
             });
 
             it(`second new record on empty server has job id 1`, async function () {
@@ -173,7 +173,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
         
         describe(`retrieve list of all records (2 jobs)`, async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.ALL_JOBS);
+                this.body = await callRoute(this.server, CONST.URLS.ALL_JOBS);
             });
 
             it(`return status ok`, async function () {
@@ -181,7 +181,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.ALL_JOBS);
+                assert.strictEqual(this.body.route, CONST.URLS.ALL_JOBS);
             });
 
             it(`there will be 2 records in the result`, async function () {
@@ -194,7 +194,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
         describe(`set a value in a job`, async function () {
             before(async function () {
                 const args = "key=my_key&value=my_value&jobid=1"
-                this.body = await callRoute(this.server, CONST.URL.SET_VALUE, args);
+                this.body = await callRoute(this.server, CONST.URLS.SET_VALUE, args);
             });
 
             it(`return status ok`, async function () {
@@ -202,11 +202,11 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.SET_VALUE);
+                assert.strictEqual(this.body.route, CONST.URLS.SET_VALUE);
             });
 
             it(`the record's settings field will contain the value`, async function () {
-                const res = await callRoute(this.server, CONST.URL.GET_JOB_RECORD, "jobid=1");
+                const res = await callRoute(this.server, CONST.URLS.GET_JOB_RECORD, "jobid=1");
                 const record = res.record;
                 assert.strictEqual(record.settings["my_key"], "my_value");
             });
@@ -214,7 +214,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
 
         describe(`create third job record with a different user`, async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, "userid=user2@test");
+                this.body = await callRoute(this.server, CONST.URLS.CREATE_JOB, "userid=user2@test");
             });
 
             it(`return status ok`, async function () {
@@ -222,14 +222,14 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.CREATE_JOB);
+                assert.strictEqual(this.body.route, CONST.URLS.CREATE_JOB);
             });
         });    
 
         describe(`retrieve list of all records (2 jobs) for first user`, async function () {
             before(async function () {
                 const msg = "userid=user@test";
-                this.body = await callRoute(this.server, CONST.URL.LIST_JOBS, msg);
+                this.body = await callRoute(this.server, CONST.URLS.LIST_JOBS, msg);
             });
 
             it(`return status ok`, async function () {
@@ -237,7 +237,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.LIST_JOBS);
+                assert.strictEqual(this.body.route, CONST.URLS.LIST_JOBS);
             });
 
             it(`there will be 2 records in the result`, async function () {
@@ -250,7 +250,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
         describe(`retrieve the results for the first job`, async function () {
             before(async function () {
                 const msg = "jobid=0";
-                this.body = await callRoute(this.server, CONST.URL.RETRIEVE_RESULTS, msg);
+                this.body = await callRoute(this.server, CONST.URLS.RETRIEVE_RESULTS, msg);
             });
 
             it(`return status ok`, async function () {
@@ -258,7 +258,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.RETRIEVE_RESULTS);
+                assert.strictEqual(this.body.route, CONST.URLS.RETRIEVE_RESULTS);
             });
 
             it(`result exists`, async function () {
@@ -269,7 +269,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
 
         describe(`delete the second job`, async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.DELETE_JOB, "jobid=1");
+                this.body = await callRoute(this.server, CONST.URLS.DELETE_JOB, "jobid=1");
             });
 
             it(`return status ok`, async function () {
@@ -277,11 +277,11 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.DELETE_JOB);
+                assert.strictEqual(this.body.route, CONST.URLS.DELETE_JOB);
             });
 
             it(`get_all returns 2 records`, async function () {
-                const allJobs = await callRoute(this.server, CONST.URL.ALL_JOBS);
+                const allJobs = await callRoute(this.server, CONST.URLS.ALL_JOBS);
                 const records = allJobs.records;                
                 const actual = Object.keys(records).length;
                 assert.strictEqual(actual, 2);

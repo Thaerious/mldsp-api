@@ -22,7 +22,7 @@ describe("testServerErrors.js : Test the Server in Abnormal Operation", function
     describe('test routes in abnormal operation on empty server', async function () {
         describe(`create new job record - missing userid`, async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB);
+                this.body = await callRoute(this.server, CONST.URLS.CREATE_JOB);
             });
 
             it(`return status error`, async function () {
@@ -30,13 +30,13 @@ describe("testServerErrors.js : Test the Server in Abnormal Operation", function
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.CREATE_JOB);
+                assert.strictEqual(this.body.route, CONST.URLS.CREATE_JOB);
             });
         });
 
         describe('upload a zip file missing the metadata.csv file', async function () {
             before(async function () {
-                this.body = await callRoute(this.server, CONST.URL.CREATE_JOB, {userid : "error@test"});
+                this.body = await callRoute(this.server, CONST.URLS.CREATE_JOB, {userid : "error@test"});
                 this.body = await uploadData(this.server, this.body.jobid, "MissingCSV.zip");
             });
 
@@ -45,7 +45,7 @@ describe("testServerErrors.js : Test the Server in Abnormal Operation", function
             });
 
             it(`return url (route) correct`, async function () {
-                assert.strictEqual(this.body.route, CONST.URL.UPLOAD_DATA);
+                assert.strictEqual(this.body.route, CONST.URLS.UPLOAD_DATA);
             });
         });
     });

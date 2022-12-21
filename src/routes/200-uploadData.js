@@ -8,12 +8,28 @@ import getArg from "../getArg.js";
 import handleError from "../handleError.js";
 import handleResponse from "../handleResponse.js";
 import logger from "../setupLogger.js";
+import multer from "multer";
 
-const route = express.Router();
+const router = express.Router();
 
-route.post(CONST.URL.UPLOAD_DATA, async (req, res, next) => {    
-    console.log(req);
+// Upload a zip file
+// router.post(
+//     CONST.URLS.UPLOAD_DATA,
+//     (req, res, next) => {
+//         console.log(req.rawHeaders);
+//         req.rawBody = '';
+//         req.on("data", chunk => req.rawBody += chunk);
+//         req.on('end', function () {
+//             console.log(req.rawBody);
+//             console.log(req.rawBody.length + " bytes read");
+//             next();
+//         });
+//     }
+// );
 
+router.post(CONST.URLS.UPLOAD_DATA,
+    multer({ dest: 'data/temp/' }).single('fileupload'),
+    async (req, res, next) => {    
     try {
         const jobid = getArg("jobid", req);
 
@@ -26,14 +42,14 @@ route.post(CONST.URL.UPLOAD_DATA, async (req, res, next) => {
         mkdirif(record.zipPath());
         FS.renameSync(req.file.path, record.zipPath());
 
-        // await unpackDataset(record);
-        handleResponse(res, CONST.URL.UPLOAD_DATA, { message: `file received: ${req.file.originalname}` });
+        await unpackDataset(record);
+        handleResponse(res, CONST.URLS.UPLOAD_DATA, { message: `file received: ${req.file.originalname}` });
     } catch (error) {
         logger.error(error.message);
-        handleError(error, CONST.URL.UPLOAD_DATA, req, res);
+        handleError(error, CONST.URLS.UPLOAD_DATA, req, res);
     } finally {
         res.end();        
     }
 });
 
-export default route;
+export default router;

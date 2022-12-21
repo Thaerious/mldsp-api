@@ -13,7 +13,8 @@ router.use(`*`, (req, res, next) => {
         new Date().toLocaleTimeString(),
         req.ip,
         req.method,
-        req.originalUrl        
+        req.originalUrl,
+        req.get("content-type")
     ]
 
     logger.log(a.join(" "));

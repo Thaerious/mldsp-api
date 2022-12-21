@@ -13,7 +13,7 @@ Jobs.instance.reset().load();
 const server = await new Server().init("./src/routes");
 
 
-let body = await callRoute(server, CONST.URL.CREATE_JOB, { userid: "error@test" });
+let body = await callRoute(server, CONST.URLS.CREATE_JOB, { userid: "error@test" });
 console.log(body);
 body = await uploadData(server, body.jobid, "MissingCSV.zip");
 console.log(body);

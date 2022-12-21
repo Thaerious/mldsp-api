@@ -1,5 +1,5 @@
 const CONSTANTS = {
-    URL: {
+    URLS: {
         CREATE_JOB: "/create_job",
         GET_JOB_RECORD: "/get_job_record",
         LIST_JOBS: "/list_jobs",
@@ -8,7 +8,8 @@ const CONSTANTS = {
         START_JOB: "/start_job",
         SET_VALUE: "/set_value",
         ALL_JOBS: "/all_jobs",
-        RETRIEVE_RESULTS: "/retrieve_results"
+        RETRIEVE_RESULTS: "/retrieve_results",
+        STATUS: "/status"
     },
     PATH: {
         ROUTES: "./src/routes",

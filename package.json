@@ -1,9 +1,8 @@
 {
   "name": "mldsp-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "src/index.js",
-  "widget-main": "src/constants.js",
+  "main": "src/package.js",
   "scripts": {
     "server": "nodejs src/main.js",
     "version": "nodejs --version"

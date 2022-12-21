@@ -15,7 +15,6 @@ function unpackDataset(record) {
     const tempPath = Path.join(record.path(), "temp");
 
     return new Promise((resolve, reject) => {
-
         // unzip the saved file to the final destination
         FS.createReadStream(record.zipPath())
             .pipe(unzipper.Extract({ path: tempPath }))

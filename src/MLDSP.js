@@ -3,12 +3,14 @@ import child_process from "child_process";
 import logger from "./setupLogger.js";
 import Jobs from "./Jobs.js";
 import FS from "fs";
+import Status from "./Status.js";
 
 /**
  * Interface to MLDSP cli.
  */
 class MLDSP {
     async run(jobRecord) {    
+        Status.instance.status = Status.VALUES.BUSY;
         this.jobRecord = jobRecord;
 
         const settings = {
@@ -30,6 +32,7 @@ class MLDSP {
         logger.log(new Date().toLocaleString());
         logger.log(cmd);
         await this.startProcess(cmd);
+        Status.instance.status = Status.VALUES.IDLE;
     }
 
     /**

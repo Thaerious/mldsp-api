@@ -2,7 +2,7 @@ import request from "supertest";
 import CONST from "../../src/constants.js";
 import Path from "path";
 
-async function uploadData(server, jobid, filename = "NotPrimates.zip", url = CONST.URL.UPLOAD_DATA) {
+async function uploadData(server, jobid, filename = "NotPrimates.zip", url = CONST.URLS.UPLOAD_DATA) {
     let body = {};
     const path = Path.join("test", "assets", filename);
 

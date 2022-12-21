@@ -11,7 +11,6 @@
     git clone git@github.com:Thaerious/MLDSP-api.git
     cd MLDSP-api
     npm i 
-    node .
 
 # Run Tests & Coverage
 To run tests which output coverage to /www/coverage
