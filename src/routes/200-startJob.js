@@ -14,9 +14,8 @@ export default makeRoute(
     CONST.URLS.START_JOB, async req => {
         const jobid = getArg("jobid", req);
         const record = Jobs.instance.getJobRecord(jobid);
-        await new MLDSP().run(record);
-
-        return {};
+        new MLDSP().run(record);
+        return { record: record };
     },
     route
 );
