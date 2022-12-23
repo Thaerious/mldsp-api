@@ -13,7 +13,7 @@ export default makeRoute(
     CONST.URLS.CREATE_JOB,
     async req => {
         const userid = getArg("userid", req);
-        let desc = req.body?.desc || req.query?.desc;
+        const desc = req.body?.description || req.query?.description;
         const jobRecord = await Jobs.instance.addJob(userid, desc || "description n/a");
         return { jobid: jobRecord.jobid };
     }
