@@ -19,6 +19,15 @@ To run tests which output coverage to /www/coverage
 
 # Start the Server
     npm run server
+or
+
+    node src/main.js
+
+## Start the server on a specific port
+    npm run server -- --port PORT
+or
+
+    node src/main.js --port PORT
 
 Browse to http://localhost:7632/ to view test page.
 
