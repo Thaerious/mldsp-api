@@ -12,12 +12,12 @@ class Server {
 
         this.app.set(`views`, `www/linked`);
         this.app.set(`view engine`, `ejs`);
-
+        
         await this.loadRoutes(path);
         return this;
     }
 
-    start (port = 7632, ip = `0.0.0.0`) {
+    start(port, ip = `0.0.0.0`) {
         this.server = http.createServer(this.app);
         this.server.listen(port, ip, () => {
             logger.log(`Listening on port ${port}`);

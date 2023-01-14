@@ -12,20 +12,23 @@ import unzipper from "unzipper";
  * @param {Buffer} data
  */
 function unpackDataset(record) {
-    const tempPath = Path.join(record.path(), "temp");
-
     return new Promise((resolve, reject) => {
         // unzip the saved file to the final destination
         FS.createReadStream(record.zipPath())
-            .pipe(unzipper.Extract({ path: tempPath }))
-            .on("close", () => {
-                const srcPath = seekDataset(tempPath);
+            .pipe(unzipper.Extract({ path: record.tempPath() }))
+            .on("close", () => {                
+                if (!FS.existsSync(record.tempPath())){
+                    reject(new Error("No data found in zip file."));
+                    return;
+                }
+
+                const srcPath = seekDataset(record.tempPath());
                 if (!srcPath) {
                     reject(new Error("Missing metadata.csv in zip file."));
                 } else {
                     const destPath = record.dataPath();
                     copyFile(srcPath, destPath);
-                    rmSync(tempPath, { recursive: true });
+                    rmSync(record.tempPath(), { recursive: true });
                     resolve();
                 }
             });

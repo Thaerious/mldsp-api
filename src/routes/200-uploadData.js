@@ -10,25 +10,13 @@ import handleResponse from "../handleResponse.js";
 import logger from "../setupLogger.js";
 import multer from "multer";
 
+import Settings from "../settings.js";
+const settings = Settings.instance();
+
 const router = express.Router();
 
-// Upload a zip file
-// router.post(
-//     CONST.URLS.UPLOAD_DATA,
-//     (req, res, next) => {
-//         console.log(req.rawHeaders);
-//         req.rawBody = '';
-//         req.on("data", chunk => req.rawBody += chunk);
-//         req.on('end', function () {
-//             console.log(req.rawBody);
-//             console.log(req.rawBody.length + " bytes read");
-//             next();
-//         });
-//     }
-// );
-
 router.post(CONST.URLS.UPLOAD_DATA,
-    multer({ dest: 'data/temp/' }).single('fileupload'),
+    multer({ dest: settings.DATA_DIR.TEMP }).single('fileupload'),
     async (req, res, next) => {    
     try {
         const jobid = getArg("jobid", req);

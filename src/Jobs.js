@@ -6,6 +6,9 @@ import getInfoFiles from "./getInfoFiles.js";
 import { mkdirif, fsjson } from "@thaerious/utility";
 import lodash from "lodash";
 
+import Settings from "./settings.js";
+const settings = Settings.instance();
+
 const mutex = new Mutex();
 
 class JobRecord {
@@ -26,7 +29,7 @@ class JobRecord {
     }
 
     path() {
-        return Path.join(CONST.DATA.ROOT, this.userid, this.jobid.toString());
+        return Path.join(settings.DATA_DIR.USERS, this.userid, this.jobid.toString());
     }
 
     recordPath() {
@@ -37,6 +40,12 @@ class JobRecord {
         return Path.join(this.path(), CONST.DATA.DATA_SUB);
     }
 
+    // Temporary location for unzipped data.
+    tempPath() {
+        return Path.join(this.path(), "temp");
+    }
+
+    // The locaation of the uploaded data (zip) file.
     zipPath() {
         return Path.join(this.path(), this.zipfile);
     }
@@ -57,11 +66,13 @@ class JobRecord {
 
 class Jobs {
     constructor() {
+        this.nextID = 0;
         this.jobStore = {};
         this.loaded = false;
     }
 
     reset() {
+        this.nextID = 0;
         this.jobStore = {};
         this.loaded = false;
         return this;
@@ -74,14 +85,15 @@ class Jobs {
     load() {
         if (this.loaded) return
         this.loaded = true;
-
-        mkdirif(CONST.DATA.ROOT);
-        const infoFilePaths = getInfoFiles(CONST.DATA.ROOT);
+        console.log(settings);
+        mkdirif(settings.DATA_DIR.USERS);
+        const infoFilePaths = getInfoFiles(settings.DATA_DIR.USERS);
 
         for (const path of infoFilePaths) {
             const record = JobRecord.fromFile(path);
             if (this.jobStore[record.jobid]) throw new Error(`Duplicate job id: ${record.jobid} ${path}`);
             this.jobStore[record.jobid] = record;
+            if (this.nextID <= record.jobid) this.nextID = record.jobid + 1;
         }
 
         return this;
@@ -157,8 +169,7 @@ class Jobs {
 
     async nextIndex() {
         const release = await mutex.acquire();
-        let index = 0;
-        while (this.jobStore[index]) index++;
+        let index = this.nextID++;
         release();
         return index;
     }

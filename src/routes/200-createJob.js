@@ -14,8 +14,8 @@ export default makeRoute(
     async req => {
         const userid = getArg("userid", req);
         const desc = req.body?.description || req.query?.description;
-        const jobRecord = await Jobs.instance.addJob(userid, desc || "description n/a");
-        return { jobid: jobRecord.jobid };
+        const record = await Jobs.instance.addJob(userid, desc || "description n/a");
+        return { record : record };
     }
     , route
 );

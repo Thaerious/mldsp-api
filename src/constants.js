@@ -15,8 +15,8 @@ const CONSTANTS = {
         ROUTES: "./src/routes",
         MLDSP_EXE : "../venv/bin/MLDSP"
     },
-    DATA: {
-        ROOT: "./data/user/",
+    DATA: {        
+        USER: "./data/user/",
         DATA_SUB: "data",
         RESULTS_SUB: "results",
         RECORD_FILENAME: "record.json",
