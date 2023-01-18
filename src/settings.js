@@ -1,3 +1,5 @@
+import logger from "./setupLogger.js";
+
 class Settings {
     constructor(dir = "data") {
         this.DATA_DIR = {
@@ -7,10 +9,10 @@ class Settings {
         }
     }
 
-    static instance(port) {
+    static instance(datapath = "data") {
         if (!Settings._instance) {
-            console.log(`Constructing new settings with port ${port}`);
-            Settings._instance = new Settings(port);
+            logger.verbose(`Constructing new settings with datapath = '${datapath}'`);
+            Settings._instance = new Settings(datapath);
         }
         return Settings._instance;
     }
