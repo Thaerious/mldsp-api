@@ -30,6 +30,12 @@ the verstion (18.13.0) with the desired version.
     sudo bash tools/install_node.sh 18.13.0
     npm i
 
+## Step 4: Set .evn values
+Add the PORT and DATA values to the .env file.
+
+    PORT=9000
+    DATA=data/
+
 ## Step 3: Start the Server
 Start the server with npm (package.json script) or directly with node.
 
