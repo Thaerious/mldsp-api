@@ -12,5 +12,6 @@ log/
 ~*
 test/temp/
 www/coverage/
+api_servers.json
 
 !.gitignore
