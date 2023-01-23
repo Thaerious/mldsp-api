@@ -10,13 +10,10 @@ import handleResponse from "../handleResponse.js";
 import logger from "../setupLogger.js";
 import multer from "multer";
 
-import Settings from "../settings.js";
-const settings = Settings.instance();
-
 const router = express.Router();
 
 router.post(CONST.URLS.UPLOAD_DATA,
-    multer({ dest: settings.DATA_DIR.TEMP }).single('fileupload'),
+    multer({ dest: CONST.DATA_DIR.TEMP }).single('fileupload'),
     async (req, res, next) => {    
     try {
         const jobid = getArg("jobid", req);

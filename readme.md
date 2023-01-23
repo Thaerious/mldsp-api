@@ -36,11 +36,37 @@ Start the server with npm (package.json script) or directly with node.
     npm run server
     node src/main.js
 
+## Step 4: Add system.d info
+Permits systemctl start, stop, and enable.  Use enable to autostart the service
+on boot.
+
+    sudo systemctl start mldsp-api
+    sudo systemctl stop mldsp-api
+    sudo systemctl enable mldsp-api
+
+To enable system control add the following to /etc/systemd/system/mldsp-api.service
+
+    [Unit]
+    Description=MLDSP API Server
+
+    [Service]
+    User=ubuntu
+    WorkingDirectory=/home/ubuntu/MLDSP-api
+    ExecStart=node src/main.js --port 9000
+    Restart=always
+
+    [Install]
+    WantedBy=multi-user.target
+
 ### Start the server on a specific port
     npm run server -- --port PORT
     node src/main.js --port PORT
 
-Browse to http://localhost:7632/ to view test page.
+Check that the server is running (replace PORT with the value specified by --port).
+
+    curl localhost:PORT/status
+
+Browse to http://localhost:PORT/ to view test page.
 
 ### Specify the data path
 When running multiple instances on the same server the data path for each instance

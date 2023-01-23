@@ -28,7 +28,12 @@ const CONSTANTS = {
         PENDING: "pending",
         COMPLETE: "complete",
         RUNNING: "running"
-    }        
+    },
+    DATA_DIR: {
+        ROOT: `${process.env.DATA}/`,
+        USERS: `${process.env.DATA}/users/`,
+        TEMP: `${process.env.DATA}/temp/`,
+    }    
 };
 
 export default CONSTANTS;

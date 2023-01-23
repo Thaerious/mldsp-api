@@ -6,30 +6,26 @@ import getInfoFiles from "./getInfoFiles.js";
 import { mkdirif, fsjson } from "@thaerious/utility";
 import lodash from "lodash";
 
-import Settings from "./settings.js";
-const settings = Settings.instance();
-
 const mutex = new Mutex();
 
 class JobRecord {
-    constructor(userid, jobid, desc, status = CONST.STATUS.PENDING, settings = {}) {
+    constructor(userid, jobid, desc, status = CONST.STATUS.PENDING) {
         this.userid = userid;
         this.jobid = jobid;
         this.desc = desc;
         this.status = CONST.STATUS.PENDING;
-        this.settings = settings;
         this.zipfile = "";
     };
 
     static fromFile(path) {
         const contents = fsjson.load(path);
-        const record = new JobRecord(contents.userid, contents.jobid, contents.desc, contents.status, contents.settings);
+        const record = new JobRecord(contents.userid, contents.jobid, contents.desc, contents.status);
         record.zipfile = contents.zipfile;
         return record;
     }
 
     path() {
-        return Path.join(settings.DATA_DIR.USERS, this.userid, this.jobid.toString());
+        return Path.join(CONST.DATA_DIR.USERS, this.userid, this.jobid.toString());
     }
 
     recordPath() {
@@ -85,9 +81,8 @@ class Jobs {
     load() {
         if (this.loaded) return
         this.loaded = true;
-        console.log(settings);
-        mkdirif(settings.DATA_DIR.USERS);
-        const infoFilePaths = getInfoFiles(settings.DATA_DIR.USERS);
+        mkdirif(CONST.DATA_DIR.USERS);
+        const infoFilePaths = getInfoFiles(CONST.DATA_DIR.USERS);
 
         for (const path of infoFilePaths) {
             const record = JobRecord.fromFile(path);
@@ -104,9 +99,9 @@ class Jobs {
      * Writes the job record to infopath.
      * After this method is called all paths will have been created.
      */
-    async addJob(userid, jobname, dataset, settings = {}) {
+    async addJob(userid, jobname, dataset) {
         const jobid = await this.nextIndex();
-        const record = new JobRecord(userid, jobid, jobname, dataset, settings);
+        const record = new JobRecord(userid, jobid, jobname, dataset);
         this.saveRecord(record)
         return lodash.cloneDeep(record);
     }
