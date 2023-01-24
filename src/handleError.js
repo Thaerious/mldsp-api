@@ -1,4 +1,5 @@
 import CONST from "./constants.js";
+import logger from "./setupLogger.js";
 
 function handleError(err, url, req, res) {
     res.set('Content-Type', 'application/json');
@@ -8,6 +9,8 @@ function handleError(err, url, req, res) {
         url: url,
         message: err.message
     }, null, 2);
+
+    logger.veryverbose(`${route}: ${msg}`);
     res.write(msg);
 }
 

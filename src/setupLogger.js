@@ -4,12 +4,17 @@ import FS from "fs";
 import Path from "path";
 import ParseArgs from "@thaerious/parseargs"
 
-function joinDate(t, a, s) {
+/**
+ * date : Date object
+ * dateArray : Date array, specifies formatting
+ * seperator : Seperator
+ */
+function joinDate(date, dateArray, seperator) {
     function format(m) {
        let f = new Intl.DateTimeFormat('en', m);
-       return f.format(t);
+       return f.format(date);
     }
-    return a.map(format).join(s);
+    return dateArray.map(format).join(seperator);
  }
 
 function getLogFile() {
@@ -35,8 +40,10 @@ appLogger.channel(`standard`).enabled = true;
 appLogger.channel(`error`).enabled = true;
 appLogger.channel(`log`).enabled = true;
 appLogger.channel(`verbose`).enabled = false;
+appLogger.channel(`veryverbose`).enabled = false;
 
 if (args.flags["verbose"]) appLogger.channel(`verbose`).enabled = true;
+if (args.tally["verbose"] >= 2) appLogger.channel(`veryverbose`).enabled = true;
 
 // appLogger.channel(`log`).log = (text) => {
 //     FS.appendFileSync(getLogFile(), text + "\n");

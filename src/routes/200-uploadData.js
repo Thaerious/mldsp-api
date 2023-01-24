@@ -14,9 +14,10 @@ const router = express.Router();
 
 router.post(CONST.URLS.UPLOAD_DATA,
     multer({ dest: CONST.DATA_DIR.TEMP }).single('fileupload'),
-    async (req, res, next) => {    
+    async (req, res, next) => {
     try {
         const jobid = getArg("jobid", req);
+        logger.verbose(`${CONST.URLS.UPLOAD_DATA} jobid ${jobid}`);
 
         if (!req.file) throw new Error("file not found");
 
@@ -26,9 +27,12 @@ router.post(CONST.URLS.UPLOAD_DATA,
 
         mkdirif(record.zipPath());
         FS.renameSync(req.file.path, record.zipPath());
-
-        await unpackDataset(record);
-        handleResponse(res, CONST.URLS.UPLOAD_DATA, { message: `file received: ${req.file.originalname}` });
+        
+        await unpackDataset(record);        
+        handleResponse(res, CONST.URLS.UPLOAD_DATA, {
+            message: `file received: ${req.file.originalname}`,
+            jobid: jobid
+        });
     } catch (error) {
         logger.error(error.message);
         handleError(error, CONST.URLS.UPLOAD_DATA, req, res);

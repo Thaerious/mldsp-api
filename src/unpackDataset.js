@@ -1,7 +1,8 @@
 import FS, { rmSync } from "fs";
 import Path from "path";
 import unzipper from "unzipper";
-
+import logger from "./setupLogger.js";
+console.log(logger.veryverbose);
 /**
  * Add the dataset with the zip file named 'name' and data for user 'userid'.
  * The first directory found within the zip (root inclusive) that contains both
@@ -14,21 +15,26 @@ import unzipper from "unzipper";
 function unpackDataset(record) {
     return new Promise((resolve, reject) => {
         // unzip the saved file to the final destination
+        logger.verbose(`Unpacking ${record.zipPath()}.`);
         FS.createReadStream(record.zipPath())
             .pipe(unzipper.Extract({ path: record.tempPath() }))
             .on("close", () => {                
-                if (!FS.existsSync(record.tempPath())){
+                if (!FS.existsSync(record.tempPath())) {
+                    logger.verbose(`No data found in zip file.`);
                     reject(new Error("No data found in zip file."));
                     return;
                 }
 
                 const srcPath = seekDataset(record.tempPath());
                 if (!srcPath) {
+                    logger.verbose(`Missing metadata.csv in zip file.`);
                     reject(new Error("Missing metadata.csv in zip file."));
                 } else {
                     const destPath = record.dataPath();
                     copyFile(srcPath, destPath);
-                    rmSync(record.tempPath(), { recursive: true });
+                    logger.verbose(`File extracted to ${destPath}.`);
+                    rmSync(record.tempPath(), { recursive: true }); 
+                    logger.veryverbose(`Directory ${record.tempPath()} removed.`);
                     resolve();
                 }
             });

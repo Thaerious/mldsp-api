@@ -9,7 +9,6 @@ router.use(`*`, (req, res, next) => {
     }
 
     const a = [
-        req.mldsp.hash.padStart(8, '0'),       
         new Date().toLocaleTimeString(),
         req.ip,
         req.method,
