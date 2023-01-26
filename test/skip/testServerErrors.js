@@ -1,10 +1,10 @@
 import assert from "assert";
 import FS from "fs";
 import Path from "path";
-import CONST from "../src/constants.js";
-import Jobs from "../src/Jobs.js";
-import Server from "../src/Server.js";
-import { uploadData, callRoute } from "./helpers/helpers.js";
+import CONST from "../../src/constants.js";
+import Jobs from "../../src/Jobs.js";
+import Server from "../../src/Server.js";
+import { uploadData, callRoute } from "../helpers/helpers.js";
 
 describe("testServerErrors.js : Test the Server in Abnormal Operation", function () {
 

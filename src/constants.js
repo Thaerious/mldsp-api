@@ -18,13 +18,6 @@ const CONSTANTS = {
         ROUTES: "./src/routes",
         MLDSP_EXE : "../venv/bin/MLDSP"
     },
-    DATA: {        
-        USER: "./data/user/",
-        DATA_SUB: "data",
-        RESULTS_SUB: "results",
-        RECORD_FILENAME: "record.json",
-        RESULTS_FILENAME: "results.json"
-    },   
     STATUS: {
         ERROR: "error",
         OK: "ok",
@@ -32,11 +25,20 @@ const CONSTANTS = {
         COMPLETE: "complete",
         RUNNING: "running"
     },
-    DATA_DIR: {
-        ROOT: `${process.env.DATA}/`,
-        USERS: `${process.env.DATA}/users/`,
-        TEMP: `${process.env.DATA}/temp/`,
-    }    
+    DATA: {
+        ROOT: `${process.env.DATA}`,  
+        UPLOAD_TEMP : "temp",
+        SUB: {
+            USERS: 'users',
+            DATA: "data",
+            RESULT: "results",
+            TEMP: "temp"
+        },
+        FILE: {
+            RECORD: "record.json",
+            RESULTS: "results.json"            
+        }
+    }
 };
 
 export default CONSTANTS;

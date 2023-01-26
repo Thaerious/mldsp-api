@@ -1,6 +1,7 @@
 import express from "express";
 import handleError from "./handleError.js";
 import handleResponse from "./handleResponse.js";
+import logger from "./setupLogger.js";
 
 /**
  * Two functions to standardize the api-endpoint json response.
@@ -39,7 +40,7 @@ function routeFactory(url, cb) {
         try {
             handleResponse(res, url, await cb(req));
         } catch (error) {
-            console.log(error);
+            logger.log(error);
             handleError(error, url, req, res);
         } finally {
             res.end();

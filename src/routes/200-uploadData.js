@@ -13,7 +13,7 @@ import multer from "multer";
 const router = express.Router();
 
 router.post(CONST.URLS.UPLOAD_DATA,
-    multer({ dest: CONST.DATA_DIR.TEMP }).single('fileupload'),
+    multer({ dest: CONST.DATA.UPLOAD_TEMP }).single('fileupload'),
     async (req, res, next) => {
     try {
         const jobid = getArg("jobid", req);

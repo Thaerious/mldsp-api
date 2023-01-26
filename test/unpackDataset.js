@@ -10,7 +10,7 @@ const args = new ParseArgs().run();
 describe("unpackDataset.js : Test Upack Dataset Function", function () {
 
     before(function () {
-        CONST.DATA.ROOT = "./test/temp/users";
+        CONST.DATA.ROOT = "./test/temp";
     });
 
     before(function () {
@@ -38,10 +38,12 @@ describe("unpackDataset.js : Test Upack Dataset Function", function () {
 
         it("creates the fastas directory", async function () {            
             const actual = FS.existsSync("test/temp/users/user@test/0/data/fastas");
+            assert.ok(actual);
         });
 
         it("creates the metadata file", async function () {            
             const actual = FS.existsSync("test/temp/users/user@test/0/data/metadata.csv");
+            assert.ok(actual);
         });        
     });
 

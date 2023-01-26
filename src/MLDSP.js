@@ -15,16 +15,16 @@ class MLDSP {
 
         const settings = {
             kvalue: 3,
-            folds: 10,
+            folds: 3,
             ... jobRecord.settings
         }
 
         const cmd =
             `${CONST.PATH.MLDSP_EXE} ` +
-            `${jobRecord.dataPath()}/fastas/ ` +
-            `${jobRecord.dataPath()}/metadata.csv ` +
+            `${jobRecord.dataDir()}/fastas/ ` +
+            `${jobRecord.dataDir()}/metadata.csv ` +
             `-k ${settings.kvalue} ` +
-            `-o ${jobRecord.resultsPath()} ` +
+            `-o ${jobRecord.resultsDir()} ` +
             `-r ${jobRecord.jobid} ` +
             `-f ${settings.folds} ` +
             `-z -j `;
@@ -53,7 +53,7 @@ class MLDSP {
                 } else {
                     this.jobRecord.status = CONST.STATUS.COMPLETE;
                     await Jobs.instance.saveRecord(this.jobRecord);
-                    FS.writeFileSync(this.jobRecord.resultsJSON(), stdout);
+                    FS.writeFileSync(this.jobRecord.resultsJSONPath(), stdout);
                     resolve(stdout);
                 }
             });

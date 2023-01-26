@@ -27,6 +27,7 @@ describe("testServerNormal.js : Test the Server in Normal Operation", function (
             });
 
             it(`return status ok`, async function () {
+                console.log(this.body);
                 assert.strictEqual(this.body.status, CONST.STATUS.OK);
             });
 

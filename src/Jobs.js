@@ -9,49 +9,50 @@ import lodash from "lodash";
 const mutex = new Mutex();
 
 class JobRecord {
-    constructor(userid, jobid, desc, status = CONST.STATUS.PENDING) {
+    constructor(userid, jobid, desc, settings = {}, status = CONST.STATUS.PENDING) {
         this.userid = userid;
         this.jobid = jobid;
         this.desc = desc;
         this.status = CONST.STATUS.PENDING;
         this.zipfile = "";
+        this.settings = settings;
     };
 
     static fromFile(path) {
         const contents = fsjson.load(path);
-        const record = new JobRecord(contents.userid, contents.jobid, contents.desc, contents.status);
+        const record = new JobRecord(contents.userid, contents.jobid, contents.desc, contents.settings, contents.status);
         record.zipfile = contents.zipfile;
         return record;
     }
 
-    path() {
-        return Path.join(CONST.DATA_DIR.USERS, this.userid, this.jobid.toString());
+    rootDir() {
+        return Path.join(CONST.DATA.ROOT, CONST.DATA.SUB.USERS, this.userid, this.jobid.toString());
     }
 
     recordPath() {
-        return Path.join(this.path(), CONST.DATA.RECORD_FILENAME);
+        return Path.join(this.rootDir(), CONST.DATA.FILE.RECORD);
     }
 
-    dataPath() {
-        return Path.join(this.path(), CONST.DATA.DATA_SUB);
+    dataDir() {
+        return Path.join(this.rootDir(), CONST.DATA.SUB.DATA);
     }
 
     // Temporary location for unzipped data.
-    tempPath() {
-        return Path.join(this.path(), "temp");
+    tempDir() {
+        return Path.join(this.rootDir(), CONST.DATA.SUB.TEMP);
     }
 
-    // The locaation of the uploaded data (zip) file.
+    // The location of the uploaded data (zip) file.
     zipPath() {
-        return Path.join(this.path(), this.zipfile);
+        return Path.join(this.rootDir(), this.zipfile);
     }
 
-    resultsPath() {
-        return Path.join(this.path(), CONST.DATA.RESULTS_SUB);
+    resultsDir() {
+        return Path.join(this.rootDir(), CONST.DATA.SUB.RESULT);
     }
 
-    resultsJSON() {
-        return Path.join(this.path(), CONST.DATA.RESULTS_SUB, CONST.DATA.RESULTS_FILENAME);
+    resultsJSONPath() {
+        return Path.join(this.rootDir(), CONST.DATA.SUB.RESULT, CONST.DATA.FILE.RESULTS);
     }
 
     saveToFile() {
@@ -81,8 +82,8 @@ class Jobs {
     load() {
         if (this.loaded) return
         this.loaded = true;
-        mkdirif(CONST.DATA_DIR.USERS);
-        const infoFilePaths = getInfoFiles(CONST.DATA_DIR.USERS);
+        mkdirif(CONST.DATA.ROOT, CONST.DATA.SUB.USERS, "/");
+        const infoFilePaths = getInfoFiles(Path.join(CONST.DATA.ROOT, CONST.DATA.SUB.USERS));
 
         for (const path of infoFilePaths) {
             const record = JobRecord.fromFile(path);
@@ -119,7 +120,7 @@ class Jobs {
     deleteJob(jobid) {        
         if (!this.hasJob(jobid)) return;
         const record = this.getJobRecord(jobid);
-        const path = record.path();
+        const path = record.rootDir();
         if (FS.existsSync(path)) FS.rmSync(path, { recursive: true });
         delete this.jobStore[jobid];    
     }

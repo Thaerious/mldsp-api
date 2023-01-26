@@ -10,7 +10,7 @@ import unpackDataset from "../src/unpackDataset.js";
 describe("testMLDSP.js : Test MLDSP action", function () {
 
     before(function () {
-        CONST.DATA.ROOT = "./test/temp/users";
+        CONST.DATA.ROOT = "./test/temp";
     });
 
     before(function () {
@@ -19,16 +19,16 @@ describe("testMLDSP.js : Test MLDSP action", function () {
         Jobs.instance.reset().load();
     });
 
-    describe("submit a job", async function () {
+    describe("MLDSP submit a job", async function () {
         before(async function () {
             this.timeout(25000);
             const record = await Jobs.instance.addJob("mldsp@test", "sanity test");
 
-            const from = "test/assets/NotPrimates.zip";
-            const to = mkdirif(record.zipPath(), "NotPrimates.zip");
+            const from = "test/assets/Influenza.zip";
+            const to = mkdirif(record.zipPath(), "Influenza.zip");
             FS.cpSync(from, to);
 
-            record.zipfile = "NotPrimates.zip";
+            record.zipfile = "Influenza.zip";
             Jobs.instance.saveRecord(record);
 
             await unpackDataset(record);
@@ -39,7 +39,7 @@ describe("testMLDSP.js : Test MLDSP action", function () {
 
         it("sanity: result isn't undefined", async function () {
             const record = Jobs.instance.getJobRecord(this.jobid);
-            const results = fsjson.load(record.resultsJSON());
+            const results = fsjson.load(record.resultsJSONPath());
             assert.ok(results);
             this.jobid = record.jobid;
         });

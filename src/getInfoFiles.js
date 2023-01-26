@@ -14,7 +14,7 @@ function getInfoFiles(root, result = []) {
 function processDirectory(path, result) {
     const contents = FS.readdirSync(path, { withFileTypes: true });
     for (const dirEntry of contents) {
-        if (dirEntry.name == CONST.DATA.RECORD_FILENAME){
+        if (dirEntry.name == CONST.DATA.FILE.RECORD){
              result.push(Path.join(path, dirEntry.name));
         } else if (dirEntry.isDirectory()) {
             processDirectory(Path.join(path, dirEntry.name), result);
