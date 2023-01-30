@@ -13,10 +13,10 @@ router.use(`*`, (req, res, next) => {
         req.ip,
         req.method,
         req.originalUrl,
-        req.get("content-type")
+        req.get("content-type").split(";")[0]
     ]
 
-    logger.log(a.join(" "));
+    logger.log(a.join(", "));
     next();
 });
 

@@ -15,7 +15,7 @@ export default makeRoute(
     async req => {
         const jobid = getArg("jobid", req);
         const record = Jobs.instance.getJobRecord(jobid);
-        const results = fsjson.load(record.resultsJSON());
+        const results = fsjson.load(record.resultsJSONPath());
         return { results: results };
     },
     route
