@@ -13,7 +13,7 @@ class JobRecord {
         this.userid = userid;
         this.jobid = jobid;
         this.desc = desc;
-        this.status = CONST.STATUS.PENDING;
+        this.status = status;
         this.zipfile = "";
         this.settings = settings;
     };

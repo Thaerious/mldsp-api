@@ -63,7 +63,7 @@ describe("Jobs.js : Test Jobs class", function () {
             const actual = Jobs.instance.getJobRecord(record.jobid).userid;
             assert.strictEqual(actual, expected);
         });
-        
+
         it("returned records are non-reflective (saveRecord)", async function () {
             const record0 = await Jobs.instance.addJob("ima@user", "job description");
             const record = await Jobs.instance.saveRecord(record0);
@@ -99,6 +99,40 @@ describe("Jobs.js : Test Jobs class", function () {
             assert.strictEqual(actual, "ima@user");
         });
 
+        describe("check the saved job fields", async function () {
+            const r = await Jobs.instance.addJob("ima@user", "job description");
+            const recordBefore = Jobs.instance.getJobRecord(r.jobid);
+
+            recordBefore.zipfile = "Ima zip file";
+            recordBefore.settings.alpha = "a";
+            Jobs.instance.saveRecord(recordBefore);
+
+            Jobs.instance.reset();
+            Jobs.instance.load();
+            const recordAfter = Jobs.instance.getJobRecord(r.jobid);
+
+            it("checking for field parity", async function () {
+                assert.deepEqual(recordAfter, recordBefore);
+            });
+        });
+
+        describe("check the saved job fields - status complete", async function () {
+            const r = await Jobs.instance.addJob("ima@user", "job description");
+            const recordBefore = Jobs.instance.getJobRecord(r.jobid);
+
+            recordBefore.zipfile = "Ima zip file";
+            recordBefore.settings.alpha = "a";
+            recordBefore.status = CONST.STATUS.COMPLETE;
+            Jobs.instance.saveRecord(recordBefore);
+
+            Jobs.instance.reset();
+            Jobs.instance.load();
+            const recordAfter = Jobs.instance.getJobRecord(r.jobid);
+
+            it("checking for field parity", async function () {
+                assert.deepEqual(recordAfter, recordBefore);
+            });
+        });        
     });
 
     describe("add a value to a record", async function () {
@@ -152,7 +186,7 @@ describe("Jobs.js : Test Jobs class", function () {
         it("plain path is $ROOT -> users -> $USERID -> $JOBID", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
-            
+
             const actual = record.rootDir();
             const expected = "test/temp/users/test@delete/0";
             assert.strictEqual(actual, expected);
@@ -161,30 +195,30 @@ describe("Jobs.js : Test Jobs class", function () {
         it("record path is $ROOT -> users -> $USERID -> $JOBID -> record.json", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
-            
+
             const actual = record.recordPath();
             const expected = "test/temp/users/test@delete/0/record.json";
             assert.strictEqual(actual, expected);
-        });      
-        
+        });
+
         it("data path is $ROOT -> users -> $USERID -> $JOBID -> data", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
-            
+
             const actual = record.dataDir();
             const expected = "test/temp/users/test@delete/0/data";
             assert.strictEqual(actual, expected);
-        });     
-        
+        });
+
         it("temp path is $ROOT -> users -> $USERID -> $JOBID -> unzipped", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
-            
+
             const actual = record.tempDir();
             const expected = "test/temp/users/test@delete/0/temp";
             assert.strictEqual(actual, expected);
-        });    
-        
+        });
+
         it("zip path is $ROOT -> users -> $USERID -> $JOBID -> $FILENAME", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
@@ -194,7 +228,7 @@ describe("Jobs.js : Test Jobs class", function () {
             const expected = "test/temp/users/test@delete/0/file.zip";
             assert.strictEqual(actual, expected);
         });
-        
+
         it("results path is $ROOT -> users -> $USERID -> $JOBID -> results", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
@@ -203,8 +237,8 @@ describe("Jobs.js : Test Jobs class", function () {
             const actual = record.resultsDir();
             const expected = "test/temp/users/test@delete/0/results";
             assert.strictEqual(actual, expected);
-        });   
-        
+        });
+
         it("results path is $ROOT -> users -> $USERID -> $JOBID -> results -> results.json", async function () {
             Jobs.instance.reset();
             const record = await Jobs.instance.addJob("test@delete", "delete a record");
@@ -213,6 +247,6 @@ describe("Jobs.js : Test Jobs class", function () {
             const actual = record.resultsJSONPath();
             const expected = "test/temp/users/test@delete/0/results/results.json";
             assert.strictEqual(actual, expected);
-        });         
+        });
     });
 });
