@@ -10,7 +10,7 @@ function handleResponse(res, route, obj = {}) {
         ...obj
     }, null, 2);
 
-    logger.veryverbose(`${route}: ${msg}`);
+    logger.veryverbose(`response: ${msg}`);
     res.write(msg);
 }
 

@@ -19,6 +19,7 @@ router.post(CONST.URLS.UPLOAD_DATA,
         const jobid = getArg("jobid", req);
         logger.verbose(`${CONST.URLS.UPLOAD_DATA} jobid ${jobid}`);
 
+        console.log(req);
         if (!req.file) throw new Error("file not found");
 
         const record = Jobs.instance.getJobRecord(jobid);
@@ -34,7 +35,7 @@ router.post(CONST.URLS.UPLOAD_DATA,
             jobid: jobid
         });
     } catch (error) {
-        logger.error(error.message);
+        console.log(error);
         handleError(error, CONST.URLS.UPLOAD_DATA, req, res);
     } finally {
         res.end();        

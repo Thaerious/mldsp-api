@@ -10,7 +10,7 @@ function handleError(err, url, req, res) {
         message: err.message
     }, null, 2);
 
-    logger.veryverbose(`${msg}`);
+    logger.veryverbose(`error-response: ${msg}`);
     res.write(msg);
 }
 
