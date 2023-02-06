@@ -1,10 +1,10 @@
 import Server from "./Server.js";
-import dotenv from "dotenv";
-
-dotenv.config();
+import CONST from "./constants.js";
+import logger from "./setupLogger.js";
 
 (async () => {
     const server = new Server();
-    await server.init();
-    server.start(process.env.PORT);
+    await server.init();        
+    logger.log(`Data directory: ${CONST.DATA.ROOT}`);
+    server.start(CONST.PORT);
 })()

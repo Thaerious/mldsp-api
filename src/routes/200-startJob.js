@@ -14,7 +14,11 @@ export default makeRoute(
     CONST.URLS.START_JOB, async req => {
         const jobid = getArg("jobid", req);
         const record = Jobs.instance.getJobRecord(jobid);
-        new MLDSP().run(record);
+        new MLDSP().run(record).catch(err => {
+            record.status = CONST.STATUS.ERROR;
+            record.error = err;
+            Jobs.instance.saveRecord(record);
+        });
         return { record: record };
     },
     route

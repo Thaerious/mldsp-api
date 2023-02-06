@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const CONSTANTS = {
+    PORT: `${process.env.PORT || 9000}`,
     URLS: {
         CREATE_JOB: "/create_job",
         GET_JOB_RECORD: "/get_job_record",
@@ -26,7 +27,7 @@ const CONSTANTS = {
         RUNNING: "running"
     },
     DATA: {
-        ROOT: `${process.env.DATA}`,  
+        ROOT: `${process.env.DATA || '/data'}`,  
         UPLOAD_TEMP : "temp",
         SUB: {
             USERS: 'users',
