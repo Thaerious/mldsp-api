@@ -27,7 +27,7 @@ const CONSTANTS = {
         RUNNING: "running"
     },
     DATA: {
-        ROOT: `${process.env.DATA || '/data'}`,  
+        ROOT: `${process.env.DATA || 'data'}`,
         UPLOAD_TEMP : "temp",
         SUB: {
             USERS: 'users',

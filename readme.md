@@ -37,9 +37,9 @@ the verstion (18.13.0) with the desired version.
     sudo bash tools/install_node.sh 18.13.0
     npm i
 
-## Step 3: Set .env values
+## Step 3 (optional): Set .env values
 Add the PORT and DATA values to the .env file.  Alternatively these values can be be set
-as environment variables.
+as environment variables.  The default values are 9000 and data/ for the PORT and DATA respectively.
 
     PORT=9000
     DATA=data/

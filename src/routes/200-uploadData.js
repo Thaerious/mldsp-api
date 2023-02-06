@@ -19,8 +19,7 @@ router.post(CONST.URLS.UPLOAD_DATA,
         const jobid = getArg("jobid", req);
         logger.verbose(`${CONST.URLS.UPLOAD_DATA} jobid ${jobid}`);
 
-        console.log(req);
-        if (!req.file) throw new Error("file not found");
+        if (!req.file) throw new Error("http req missing field 'file'");
 
         const record = Jobs.instance.getJobRecord(jobid);
         record.zipfile = req.file.originalname;
