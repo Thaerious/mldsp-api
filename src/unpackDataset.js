@@ -21,9 +21,8 @@ function unpackDataset(record) {
         FS.createReadStream(record.zipPath())
             .pipe(unzipper.Extract({ path: record.tempDir() }))
             .on("error", (error) => {
-                logger.log(" *** unzipper error");
                 logger.log(error);
-                reject(`Error unzipping data file: ${record.zipfile}`);
+                reject(new Error(`Error unzipping data file: ${record.zipfile}`));
             })
             .on("close", () => {
                 if (!FS.existsSync(record.tempDir())) {

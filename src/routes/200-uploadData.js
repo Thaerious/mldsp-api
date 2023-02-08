@@ -19,12 +19,11 @@ router.post(CONST.URLS.UPLOAD_DATA,
         try {
             await middleware(req, res, next);
         } catch (error) {
-            logger.log(error);
-            handleError(error, CONST.URLS.UPLOAD_DATA, req, res);
             const jobid = getArg("jobid", req);
             const record = Jobs.instance.getJobRecord(jobid);
             record.status = CONST.STATUS.ERROR;
             Jobs.instance.saveRecord(record);
+            handleError(res, CONST.URLS.UPLOAD_DATA, error, { record: record });
         } finally {
             res.end();
         }
@@ -46,7 +45,8 @@ async function middleware(req, res, next) {
     await unpackDataset(record);
     handleResponse(res, CONST.URLS.UPLOAD_DATA, {
         message: `file received: ${req.file.originalname}`,
-        jobid: jobid
+        jobid: jobid,
+        record, record
     });
 }
 

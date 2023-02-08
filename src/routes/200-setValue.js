@@ -20,7 +20,7 @@ export default makeRoute(
         record.settings[key] = value;
         Jobs.instance.saveRecord(record);
 
-        return {};
+        return { record: record };
     },
     route
 );

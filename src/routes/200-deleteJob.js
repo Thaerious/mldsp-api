@@ -13,8 +13,9 @@ export default makeRoute(
     CONST.URLS.DELETE_JOB,
     async req => {
         const jobid = getArg("jobid", req);
-        Jobs.instance.deleteJob(jobid);    
-        return { };
+        const record = Jobs.instance.getJobRecord(jobid);
+        Jobs.instance.deleteJob(jobid);
+        return { record: record };
     },
     route
 );

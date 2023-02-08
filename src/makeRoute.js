@@ -41,7 +41,7 @@ function routeFactory(url, cb) {
             handleResponse(res, url, await cb(req));
         } catch (error) {
             logger.log(error);
-            handleError(error, url, req, res);
+            handleError(res, url, error);
         } finally {
             res.end();
         }

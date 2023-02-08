@@ -16,7 +16,10 @@ export default makeRoute(
         const jobid = getArg("jobid", req);
         const record = Jobs.instance.getJobRecord(jobid);
         const results = fsjson.load(record.resultsJSONPath());
-        return { results: results };
+        return {
+            record: record,
+            results: results
+        };
     },
     route
 );
