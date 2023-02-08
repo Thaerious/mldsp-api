@@ -15,11 +15,16 @@ import logger from "./setupLogger.js";
 function unpackDataset(record) {
     return new Promise((resolve, reject) => {
         // unzip the saved file to the final destination
-        logger.verbose(`Unpacking ${record.zipPath()}.`);
-        logger.verbose(`Destination ${record.tempDir()}.`);
+        logger.veryverbose(`Unpacking ${record.zipPath()}.`);
+        logger.veryverbose(`Destination ${record.tempDir()}.`);
 
         FS.createReadStream(record.zipPath())
             .pipe(unzipper.Extract({ path: record.tempDir() }))
+            .on("error", (error) => {
+                logger.log(" *** unzipper error");
+                logger.log(error);
+                reject(`Error unzipping data file: ${record.zipfile}`);
+            })
             .on("close", () => {
                 if (!FS.existsSync(record.tempDir())) {
                     logger.verbose(`No data found in zip file.`);

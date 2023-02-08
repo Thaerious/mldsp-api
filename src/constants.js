@@ -17,7 +17,8 @@ const CONSTANTS = {
     },
     PATH: {
         ROUTES: "./src/routes",
-        MLDSP_EXE : "../venv/bin/MLDSP"
+        MLDSP_EXE: "../venv/bin/MLDSP",
+        LOG: "./log"
     },
     STATUS: {
         ERROR: "error",

@@ -13,7 +13,7 @@ describe("Jobs.js : Test Jobs class", function () {
 
     before(function () {
         if (FS.existsSync("test/temp")) FS.rmSync("test/temp", { recursive: true });
-        FS.mkdirSync(process.env.DATA, { recursive: true });
+        FS.mkdirSync(CONST.DATA.ROOT, { recursive: true });
         Jobs.instance.reset().load();
     });
 

@@ -4,10 +4,6 @@ import logger from "../setupLogger.js";
 const router = express.Router();
 
 router.use(`*`, (req, res, next) => {
-    req.mldsp = {
-        hash: (Math.random() * 10**9 >>> 0).toString(16)
-    }
-
     const a = [
         new Date().toLocaleTimeString(),
         req.ip,

@@ -9,9 +9,11 @@ import Status from "./Status.js";
  * Interface to MLDSP cli.
  */
 class MLDSP {
-    async run(jobRecord) {    
-        Status.instance.status = Status.VALUES.BUSY;
+    async run(jobRecord) { 
         this.jobRecord = jobRecord;
+        this.precheck();
+
+        Status.instance.status = Status.VALUES.BUSY;
 
         const settings = {
             kvalue: 3,
@@ -29,10 +31,15 @@ class MLDSP {
             `-f ${settings.folds} ` +
             `-z -j `;
 
-        logger.log(new Date().toLocaleString());
         logger.log(cmd);
         await this.startProcess(cmd);
         Status.instance.status = Status.VALUES.IDLE;
+    }
+
+    precheck() {
+        if (!FS.existsSync(this.jobRecord.dataDir())) {
+            throw new Error(`missing data directory '${this.jobRecord.dataDir()}'`);            
+        }
     }
 
     /**
