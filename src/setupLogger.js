@@ -2,7 +2,6 @@ import Logger from "@thaerious/logger";
 import CONST from "./constants.js";
 import { mkdirif } from "@thaerious/utility";
 import FS from "fs";
-import Path from "path";
 import ParseArgs from "@thaerious/parseargs"
 
 /**
@@ -58,4 +57,5 @@ logger.channel("veryverbose").addHandler((string) => {
     FS.appendFileSync(logFilename(), string + "\n");
 });
 
-export default logger.all();
+const all = logger.all();
+export { all as default, args };
